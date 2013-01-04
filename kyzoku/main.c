@@ -1,30 +1,12 @@
 // Include SDL functions and data types
 #include "SDL/SDL.h"
-
-#define SCREEN_WIDTH    640
-#define SCREEN_HEIGHT   480
-#define SCREEN_BPP      32
-
-// define bool type
-typedef enum { false, true } bool;
-
-void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination)
-{
-    // Make a temp rect to hold the offsets
-    SDL_Rect offset;
-
-    // Set the offsets
-    offset.x = x;
-    offset.y = y;
-
-    SDL_BlitSurface(source, NULL, destination, &offset);
-}
+#include "common.h"
 
 int main(int argc, char* args[])
 {
     // the images
-    SDL_Surface* ship = NULL;
-    SDL_Surface* sector = NULL;
+    SDL_Surface* ship_img = NULL;
+    SDL_Surface* sector_img = NULL;
     SDL_Surface* screen = NULL;
 
     // player data
@@ -38,44 +20,40 @@ int main(int argc, char* args[])
     player.x = 100;
     player.y = 100;
 
-    SDL_Event event;
     bool quit = false;
+
+
 
     // Start SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
         return 1;
 
-    // Set up screen
-    screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);
-    SDL_WM_SetCaption("Kyzoku",NULL);
+    init_screen(&screen);
 
     // Load images
-    ship = SDL_LoadBMP("test.bmp");
-    sector = SDL_LoadBMP("sector1.bmp");
+    ship_img = SDL_LoadBMP("test.bmp");
+    sector_img = SDL_LoadBMP("sector1.bmp");
 
+    //Colour keying
+    Uint32 colorkey = SDL_MapRGB(ship_img->format,0,0,0);
+    SDL_SetColorKey(ship_img,SDL_SRCCOLORKEY,colorkey);
+
+    /// GAME LOOP
     while(quit == false)
     {
         // Apply image to screen
-        apply_surface(0,0, sector, screen);
-        apply_surface(player.x, player.y, ship, screen);
+        apply_surface(0,0, sector_img, screen);
+        apply_surface(player.x, player.y, ship_img, screen);
 
         // Update Screen
         SDL_Flip(screen);
 
-        //Event stuff
-        while (SDL_PollEvent(&event))
-        {
-            switch(event.type)
-            {
-            case SDL_QUIT:
-                quit = true;
-            }
-        }
+        quit = events();
     }
 
     // Free loaded image
-    SDL_FreeSurface(sector);
-    SDL_FreeSurface(ship);
+    SDL_FreeSurface(sector_img);
+    SDL_FreeSurface(ship_img);
 
     // Quit SDL
     SDL_Quit();

@@ -1,4 +1,13 @@
 # depslib dependency file v1.0
-1357187913 source:c:\users\sam\documents\github\kyzoku\kyzoku\main.c
+1357274029 source:c:\users\sam\documents\github\kyzoku\kyzoku\main.c
 	"SDL/SDL.h"
+
+1357274957 source:c:\users\sam\documents\github\kyzoku\kyzoku\graphics.c
+	"SDL/SDL.h"
+
+1357274944 source:c:\users\sam\documents\github\kyzoku\kyzoku\events.c
+	"SDL/SDL.h"
+	"common.h"
+
+1357274903 c:\users\sam\documents\github\kyzoku\kyzoku\common.h
 
