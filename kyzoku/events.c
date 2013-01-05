@@ -16,6 +16,26 @@ bool events()
         {
         case SDL_QUIT:
             return true;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym)
+            {
+            case SDLK_ESCAPE:
+                return true;
+            }
         }
     }
+
+    // Check Key states
+    Uint8 *keystates = SDL_GetKeyState(NULL);
+
+    if (keystates[SDLK_UP])
+        moveship(0,-1);
+    else if (keystates[SDLK_DOWN])
+        moveship(0,1);
+    else if (keystates[SDLK_LEFT])
+        moveship(-1,0);
+    else if (keystates[SDLK_RIGHT])
+        moveship(1,0);
+
+    return false;
 }

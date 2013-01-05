@@ -23,16 +23,18 @@ void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination)
     SDL_BlitSurface(source, NULL, destination, &offset);
 }
 
-int init_screen(SDL_Surface** screen)
+SDL_Surface* load_img(char* filename)
 {
-    // Set up screen
-    *screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);
-    SDL_WM_SetCaption("Kyzoku",NULL);
+    SDL_Surface* img = SDL_LoadBMP(filename);
 
-    return 0;
+    return img;
 }
 
-void update(SDL_Surface* surf)
+SDL_Surface* init_screen()
 {
-    SDL_Flip(surf);
+    // screen surface
+    SDL_Surface* screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);
+    SDL_WM_SetCaption("Kyzoku",NULL);
+
+    return screen;
 }
