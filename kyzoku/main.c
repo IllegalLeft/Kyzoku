@@ -29,6 +29,16 @@ void moveship(int x, int y)
         player.vel_y = 4;
     if (player.vel_y < -4)
         player.vel_y = -4;
+
+    if((player.x + player.vel_x) > (SCREEN_WIDTH - 30))
+        player.vel_x = 0;
+    if((player.x + player.vel_x) < 0)
+        player.vel_x = 0;
+
+    if((player.y + player.vel_y) > (SCREEN_HEIGHT - 30))
+        player.vel_y = 0;
+    if((player.y + player.vel_y) < 0)
+        player.vel_y = 0;
 }
 
 int main(int argc, char* args[])
@@ -42,7 +52,7 @@ int main(int argc, char* args[])
 
     // the images
     SDL_Surface* ship_img = load_img("ship.bmp");
-    SDL_Surface* sector_img = load_img("sector1.bmp");
+    SDL_Surface* sector_img = load_img("sky.bmp");
 
     bool quit = false;
 
@@ -62,14 +72,15 @@ int main(int argc, char* args[])
     {
 
         // Apply image to screen
-        apply_surface(player.x,player.y, sector_img, screen);
-        apply_surface(320, 240, ship_img, screen);
+        apply_surface(0, 0, sector_img, screen);
+        apply_surface(player.x, player.y, ship_img, screen);
 
         // Update Screen
         SDL_Flip(screen);
 
         // events
         quit = events();
+
         // apply velocity
         player.x += player.vel_x;
         player.y += player.vel_y;
