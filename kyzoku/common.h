@@ -11,3 +11,13 @@
 
 // bool type
 typedef enum { false, true } bool;
+
+// player data
+struct player_data
+{
+    int x;      // x ordinate of ship
+    int y;      // y ordinate of ship
+    int vel_x;  // x velocity of ship
+    int vel_y;  // y velocity of ship
+};
+struct player_data player;

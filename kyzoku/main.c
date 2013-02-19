@@ -2,44 +2,13 @@
 #include "SDL/SDL.h"
 #include "common.h"
 
-// player data
-struct player_data
+//background data
+struct background_data
 {
-    int x;      // x ordinate of ship
-    int y;      // y ordinate of ship
-    int vel_x;  // x velocity of ship
-    int vel_y;  // y velocity of ship
+    int x; // Change these to double/float to allow smaller scrolling increments?
+    int y;
 };
-struct player_data player;
-
-void moveship(int x, int y)
-{
-    player.vel_x = x * 4;
-
-    //limit velocity
-    if (player.vel_x > 4)
-        player.vel_x = 4;
-    if (player.vel_x < -4)
-        player.vel_x = -4;
-
-    player.vel_y = y * 4;
-
-        //limit velocity
-    if (player.vel_y > 4)
-        player.vel_y = 4;
-    if (player.vel_y < -4)
-        player.vel_y = -4;
-
-    if((player.x + player.vel_x) > (SCREEN_WIDTH - 30))
-        player.vel_x = 0;
-    if((player.x + player.vel_x) < 0)
-        player.vel_x = 0;
-
-    if((player.y + player.vel_y) > (SCREEN_HEIGHT - 30))
-        player.vel_y = 0;
-    if((player.y + player.vel_y) < 0)
-        player.vel_y = 0;
-}
+struct background_data background;
 
 int main(int argc, char* args[])
 {
@@ -49,6 +18,10 @@ int main(int argc, char* args[])
     player.y = 0;
     player.vel_x = 0;
     player.vel_y = 0;
+
+    // set background data
+    background.x = 0;
+    background.y = 0;
 
     // the images
     SDL_Surface* ship_img = load_img("ship.bmp");
@@ -72,7 +45,8 @@ int main(int argc, char* args[])
     {
 
         // Apply image to screen
-        apply_surface(0, 0, sector_img, screen);
+        apply_surface(background.x, background.y, sector_img, screen);
+        apply_surface(background.x + SCREEN_WIDTH, background.y, sector_img, screen);
         apply_surface(player.x, player.y, ship_img, screen);
 
         // Update Screen
@@ -85,17 +59,21 @@ int main(int argc, char* args[])
         player.x += player.vel_x;
         player.y += player.vel_y;
 
+        // apply background scrolling
+        background.x -= 1;
+        if(background.x < -SCREEN_WIDTH)
+            background.x = 0;
 
         // slow velocity
         if (player.vel_x > 0)
-            player.vel_x -= 1;
+            player.vel_x /= 2;
         if (player.vel_x < 0)
-            player.vel_x += 1;
+            player.vel_x /= 2;
 
         if (player.vel_y > 0)
-            player.vel_y -= 1;
+            player.vel_y /= 2;
         if (player.vel_y < 0)
-            player.vel_y += 1;
+            player.vel_y /= 2;
     }
 
     // Free loaded image
