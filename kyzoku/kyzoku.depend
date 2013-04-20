@@ -31,3 +31,20 @@
 	"SDL/SDL.h"
 	"common.h"
 
+1366494888 source:c:\documents and settings\sami\my documents\kyzoku\kyzoku\kyzoku\events.c
+	"SDL/SDL.h"
+	"common.h"
+
+1366494888 c:\documents and settings\sami\my documents\kyzoku\kyzoku\kyzoku\common.h
+
+1366494888 source:c:\documents and settings\sami\my documents\kyzoku\kyzoku\kyzoku\graphics.c
+	"SDL/SDL.h"
+	"common.h"
+
+1366494888 source:c:\documents and settings\sami\my documents\kyzoku\kyzoku\kyzoku\main.c
+	"SDL/SDL.h"
+	"common.h"
+
+1366494888 source:c:\documents and settings\sami\my documents\kyzoku\kyzoku\kyzoku\physics.c
+	"common.h"
+
