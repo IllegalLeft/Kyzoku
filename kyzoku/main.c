@@ -14,8 +14,8 @@ int main(int argc, char* args[])
 {
 
     // set player data
-    player.x = 0;
-    player.y = 0;
+    player.x = (SCREEN_WIDTH - 30) / 2;
+    player.y = (SCREEN_HEIGHT - 30) / 2;
     player.vel_x = 0;
     player.vel_y = 0;
 
@@ -24,7 +24,7 @@ int main(int argc, char* args[])
     background.y = 0;
 
     // the images
-    SDL_Surface* ship_img = load_img("ship.bmp");
+    player.image = load_img("ship.bmp");
     SDL_Surface* sector_img = load_img("sky.bmp");
 
     bool quit = false;
@@ -34,37 +34,28 @@ int main(int argc, char* args[])
         return 1;
 
     SDL_Surface* screen = init_screen();
-    //SDL_Surface* screen = SDL_SetVideoMode(640, 480, 32, SDL_SWSURFACE);
 
-    //Colour keying
-    Uint32 colorkey = SDL_MapRGB(ship_img->format,0,0,0);
-    SDL_SetColorKey(ship_img,SDL_SRCCOLORKEY,colorkey);
+    // Colour keying
+    Uint32 colorkey = SDL_MapRGB(player.image->format,0,0,0);
+    SDL_SetColorKey(player.image,SDL_SRCCOLORKEY,colorkey);
 
     /// GAME LOOP
     while(quit == false)
     {
 
-        // Apply image to screen
-        apply_surface(background.x, background.y, sector_img, screen);
-        apply_surface(background.x + SCREEN_WIDTH, background.y, sector_img, screen);
-        apply_surface(player.x, player.y, ship_img, screen);
-
-        // Update Screen
-        SDL_Flip(screen);
-
-        // events
+        /// Events
         quit = events();
 
-        // apply velocity
-        player.x += player.vel_x;
-        player.y += player.vel_y;
+        apply_velocity(&player);
 
         // apply background scrolling
         background.x -= 1;
         if(background.x < -SCREEN_WIDTH)
-            background.x = 0;
+            background.x = 0;        // apply velocity
+        player.x += player.vel_x;
+        player.y += player.vel_y;
 
-        // slow velocity
+        // slow player velocity
         if (player.vel_x > 0)
             player.vel_x /= 2;
         if (player.vel_x < 0)
@@ -74,11 +65,20 @@ int main(int argc, char* args[])
             player.vel_y /= 2;
         if (player.vel_y < 0)
             player.vel_y /= 2;
+
+        /// Drawing
+        // Apply image to screen
+        apply_surface(background.x, background.y, sector_img, screen);
+        apply_surface(background.x + SCREEN_WIDTH, background.y, sector_img, screen);
+        apply_surface(player.x, player.y, player.image, screen);
+
+        // update screen
+        SDL_Flip(screen);
     }
 
     // Free loaded image
     SDL_FreeSurface(sector_img);
-    SDL_FreeSurface(ship_img);
+    SDL_FreeSurface(player.image);
 
     // Quit SDL
     SDL_Quit();

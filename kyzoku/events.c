@@ -30,12 +30,15 @@ bool events()
 
     if (keystates[SDLK_UP])
         moveship(0,-1);
-    else if (keystates[SDLK_DOWN])
+    if (keystates[SDLK_DOWN])
         moveship(0,1);
-    else if (keystates[SDLK_LEFT])
+    if (keystates[SDLK_LEFT])
         moveship(-1,0);
-    else if (keystates[SDLK_RIGHT])
+    if (keystates[SDLK_RIGHT])
         moveship(1,0);
+
+    //if (keystates[SDLK_SPACE])
+        //shoot();
 
     return false;
 }

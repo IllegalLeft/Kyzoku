@@ -27,6 +27,10 @@ SDL_Surface* load_img(char* filename)
 
 SDL_Surface* init_screen()
 {
+    // icon
+    SDL_Surface* icon = load_img("icon.bmp");
+    SDL_WM_SetIcon(icon, NULL);
+
     // screen surface
     SDL_Surface* screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_BPP, SDL_SWSURFACE);
     SDL_WM_SetCaption("Kyzoku", NULL);

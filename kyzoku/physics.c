@@ -16,11 +16,12 @@ void moveship(int x, int y)
 
     player.vel_y = y * 4;
 
-        //limit velocity
+    //limit velocity
     if (player.vel_y > 4)
         player.vel_y = 4;
-    if (player.vel_y < -4)
+    if (player.vel_y < -4;
         player.vel_y = -4;
+
 
     if((player.x + player.vel_x) > (SCREEN_WIDTH - 30))
         player.vel_x = 0;
@@ -31,4 +32,11 @@ void moveship(int x, int y)
         player.vel_y = 0;
     if((player.y + player.vel_y) < 0)
         player.vel_y = 0;
+}
+
+void apply_velocity(struct sprite *Sprite)
+{
+    // apply velocity
+    Sprite->x += Sprite->vel_x;
+    Sprite->y += Sprite->vel_y;
 }

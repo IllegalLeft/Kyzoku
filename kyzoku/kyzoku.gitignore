@@ -1,2 +1,6 @@
 #Ignore these file types
+
+#Codeblocks files
+/obj/*
+/bin/*
 *.layout

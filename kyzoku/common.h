@@ -4,20 +4,21 @@
     - common typdefs, code, defines, etc.
 */
 
-// Screen Definitions
-#define SCREEN_WIDTH    640
-#define SCREEN_HEIGHT   480
-#define SCREEN_BPP      32
+#include "screen.h"
+#include <SDL/SDL.h>
 
 // bool type
 typedef enum { false, true } bool;
 
-// player data
-struct player_data
+// basic sprite structure
+struct sprite
 {
-    int x;      // x ordinate of ship
-    int y;      // y ordinate of ship
-    int vel_x;  // x velocity of ship
-    int vel_y;  // y velocity of ship
+    SDL_Surface* image;
+    int x;
+    int y;
+    int vel_x;
+    int vel_y;
 };
-struct player_data player;
+struct sprite player;
+struct sprite *bullets;
+int bullets_num;
