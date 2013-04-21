@@ -8,8 +8,8 @@
 void limit_vel(int x, int y)
 {
     // speed
-    player.vel_x = x * 2;
-    player.vel_y = y * 2;
+    player.vel_x = x * 1;
+    player.vel_y = y * 1;
 
     // limit x velocity
     if (player.vel_x > 10)
