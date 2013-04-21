@@ -3,26 +3,27 @@
 */
 
 #include "common.h"
+#include <stdio.h>
 
-void moveship(int x, int y)
+void limit_vel(int x, int y)
 {
-    player.vel_x = x * 4;
+    // speed
+    player.vel_x = x * 2;
+    player.vel_y = y * 2;
 
-    //limit velocity
-    if (player.vel_x > 4)
-        player.vel_x = 4;
-    if (player.vel_x < -4)
-        player.vel_x = -4;
+    // limit x velocity
+    if (player.vel_x > 10)
+        player.vel_x = 10;
+    if (player.vel_x < -10)
+        player.vel_x = -10;
 
-    player.vel_y = y * 4;
+    // limit y velocity
+    if (player.vel_y > 10)
+        player.vel_y = 10;
+    if (player.vel_y < -10)
+        player.vel_y = -10;
 
-    //limit velocity
-    if (player.vel_y > 4)
-        player.vel_y = 4;
-    if (player.vel_y < -4;
-        player.vel_y = -4;
-
-
+    //
     if((player.x + player.vel_x) > (SCREEN_WIDTH - 30))
         player.vel_x = 0;
     if((player.x + player.vel_x) < 0)
@@ -32,6 +33,8 @@ void moveship(int x, int y)
         player.vel_y = 0;
     if((player.y + player.vel_y) < 0)
         player.vel_y = 0;
+
+    //printf("vx:%d vy:%d\n",player.vel_x, player.vel_y);
 }
 
 void apply_velocity(struct sprite *Sprite)

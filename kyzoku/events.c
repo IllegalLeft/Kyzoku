@@ -29,13 +29,16 @@ bool events()
     Uint8 *keystates = SDL_GetKeyState(NULL);
 
     if (keystates[SDLK_UP])
-        moveship(0,-1);
+        player.vel_y = -2;
     if (keystates[SDLK_DOWN])
-        moveship(0,1);
+        player.vel_y = 2;
     if (keystates[SDLK_LEFT])
-        moveship(-1,0);
+        player.vel_x = -2;
     if (keystates[SDLK_RIGHT])
-        moveship(1,0);
+        player.vel_x = 2;
+
+    limit_vel(player.vel_x, player.vel_y);
+
 
     //if (keystates[SDLK_SPACE])
         //shoot();

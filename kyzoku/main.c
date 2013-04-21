@@ -26,12 +26,17 @@ int main(int argc, char* args[])
     // the images
     player.image = load_img("ship.bmp");
     SDL_Surface* sector_img = load_img("sky.bmp");
+    bullet.image = load_img("bullet.bmp");
+
 
     bool quit = false;
 
     // Start SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
         return 1;
+
+    freopen("CON", "w", stdout); // redirects stdout
+    freopen("CON", "w", stderr); // redirects stderr
 
     SDL_Surface* screen = init_screen();
 
@@ -51,20 +56,22 @@ int main(int argc, char* args[])
         // apply background scrolling
         background.x -= 1;
         if(background.x < -SCREEN_WIDTH)
-            background.x = 0;        // apply velocity
-        player.x += player.vel_x;
-        player.y += player.vel_y;
+            background.x = 0;
 
         // slow player velocity
         if (player.vel_x > 0)
             player.vel_x /= 2;
+        else player.vel_x = 0;
         if (player.vel_x < 0)
             player.vel_x /= 2;
+        else player.vel_x = 0;
 
         if (player.vel_y > 0)
             player.vel_y /= 2;
+        else player.vel_y = 0;
         if (player.vel_y < 0)
             player.vel_y /= 2;
+        else player.vel_y = 0;
 
         /// Drawing
         // Apply image to screen
@@ -79,6 +86,7 @@ int main(int argc, char* args[])
     // Free loaded image
     SDL_FreeSurface(sector_img);
     SDL_FreeSurface(player.image);
+    SDL_FreeSurface(bullet.image);
 
     // Quit SDL
     SDL_Quit();
