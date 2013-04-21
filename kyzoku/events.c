@@ -40,8 +40,8 @@ bool events()
     limit_vel(player.vel_x, player.vel_y);
 
 
-    //if (keystates[SDLK_SPACE])
-        //shoot();
+    if (keystates[SDLK_SPACE])
+        shoot();
 
     return false;
 }

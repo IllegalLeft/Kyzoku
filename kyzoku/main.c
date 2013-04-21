@@ -19,6 +19,14 @@ int main(int argc, char* args[])
     player.vel_x = 0;
     player.vel_y = 0;
 
+    // set bullet data
+    bullet.x = player.x;
+    bullet.y = player.y;
+    bullet.speed = 4;
+    bullet.vel_x = bullet.speed;
+    bullet.vel_y = 0;
+    bullet.shot = false;
+
     // set background data
     background.x = 0;
     background.y = 0;
@@ -35,6 +43,7 @@ int main(int argc, char* args[])
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
         return 1;
 
+    // Redirect stdout and stderr streams to console (SDL sends to files by default)
     freopen("CON", "w", stdout); // redirects stdout
     freopen("CON", "w", stderr); // redirects stderr
 
@@ -42,7 +51,8 @@ int main(int argc, char* args[])
 
     // Colour keying
     Uint32 colorkey = SDL_MapRGB(player.image->format,0,0,0);
-    SDL_SetColorKey(player.image,SDL_SRCCOLORKEY,colorkey);
+    SDL_SetColorKey(player.image, SDL_SRCCOLORKEY, colorkey);
+    SDL_SetColorKey(bullet.image, SDL_SRCCOLORKEY, colorkey);
 
     /// GAME LOOP
     while(quit == false)
@@ -73,11 +83,25 @@ int main(int argc, char* args[])
             player.vel_y /= 2;
         else player.vel_y = 0;
 
+        // Bullets
+        if (bullet.shot == true)
+        {
+            move_bullets();
+        }
+        else
+        {
+            bullet.x = player.x;
+            bullet.y = player.y;
+        }
+
+
         /// Drawing
         // Apply image to screen
         apply_surface(background.x, background.y, sector_img, screen);
         apply_surface(background.x + SCREEN_WIDTH, background.y, sector_img, screen);
         apply_surface(player.x, player.y, player.image, screen);
+        if (bullet.shot == true)
+            apply_surface(bullet.x, bullet.y, bullet.image, screen);
 
         // update screen
         SDL_Flip(screen);

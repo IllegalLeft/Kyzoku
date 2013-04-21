@@ -43,3 +43,23 @@ void apply_velocity(struct sprite *Sprite)
     Sprite->x += Sprite->vel_x;
     Sprite->y += Sprite->vel_y;
 }
+
+/// BULLET PHYSICS
+void shoot()
+{
+    bullet.shot = true;
+}
+
+void reset_bullets()
+{
+    if (bullet.x > SCREEN_WIDTH)
+        bullet.shot = false;
+}
+
+void move_bullets()
+{
+    bullet.x += bullet.vel_x;
+    bullet.y += bullet.vel_y;
+
+    reset_bullets();
+}
