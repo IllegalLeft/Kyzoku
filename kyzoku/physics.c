@@ -45,21 +45,77 @@ void apply_velocity(struct sprite *Sprite)
 }
 
 /// BULLET PHYSICS
+void init_bullets()
+{
+    int i;
+    for (i = 0; i < MAX_BULLETS;i++)
+    {
+        // set bullet data
+        bullet[i].x = player.x;
+        bullet[i].y = player.y;
+        bullet[i].speed = 4;
+        bullet[i].vel_x = bullet[i].speed;
+        bullet[i].vel_y = 0;
+        bullet[i].shot = false;
+        // Image
+        bullet[i].image = load_img("bullet.bmp");
+        // Colour key
+        Uint32 colorkey = SDL_MapRGB(bullet[i].image->format,0,0,0);
+        SDL_SetColorKey(bullet[i].image, SDL_SRCCOLORKEY, colorkey);
+    }
+}
+
 void shoot()
 {
-    bullet.shot = true;
+    int next = -1;
+
+    // Find next bullet
+    int i;
+    for (i = 0; i < MAX_BULLETS; i++)
+    {
+        if (bullet[i].shot == false)
+        {
+            next = i;
+            break;
+        }
+    }
+
+    if (next < 0)
+        return 1;
+    else
+    {
+        bullet[next].shot = true;
+        return 0;
+    }
 }
 
 void reset_bullets()
 {
-    if (bullet.x > SCREEN_WIDTH)
-        bullet.shot = false;
+    int i;
+    for (i = 0; i < MAX_BULLETS;i++)
+    {
+        if (bullet[i].x > SCREEN_WIDTH)
+            bullet[i].shot = false;
+    }
+
 }
 
 void move_bullets()
 {
-    bullet.x += bullet.vel_x;
-    bullet.y += bullet.vel_y;
+    int i;
+    for (i = 0; i < MAX_BULLETS;i++)
+    {
+        if (bullet[i].shot == true)
+        {
+            bullet[i].x += bullet[i].vel_x;
+            bullet[i].y += bullet[i].vel_y;
+        }
+        else
+        {
+            bullet[i].x = player.x;
+            bullet[i].y = player.y;
+        }
 
+    }
     reset_bullets();
 }

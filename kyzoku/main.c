@@ -19,13 +19,8 @@ int main(int argc, char* args[])
     player.vel_x = 0;
     player.vel_y = 0;
 
-    // set bullet data
-    bullet.x = player.x;
-    bullet.y = player.y;
-    bullet.speed = 4;
-    bullet.vel_x = bullet.speed;
-    bullet.vel_y = 0;
-    bullet.shot = false;
+    init_bullets();
+    int next_bullet = 0;
 
     // set background data
     background.x = 0;
@@ -34,7 +29,7 @@ int main(int argc, char* args[])
     // the images
     player.image = load_img("ship.bmp");
     SDL_Surface* sector_img = load_img("sky.bmp");
-    bullet.image = load_img("bullet.bmp");
+    // Bullet img loaded in init_bullets()
 
 
     bool quit = false;
@@ -43,6 +38,8 @@ int main(int argc, char* args[])
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
         return 1;
 
+    int frame_start, frame_end, frame_time;
+
     // Redirect stdout and stderr streams to console (SDL sends to files by default)
     freopen("CON", "w", stdout); // redirects stdout
     freopen("CON", "w", stderr); // redirects stderr
@@ -50,13 +47,15 @@ int main(int argc, char* args[])
     SDL_Surface* screen = init_screen();
 
     // Colour keying
-    Uint32 colorkey = SDL_MapRGB(player.image->format,0,0,0);
+    int colorkey = SDL_MapRGB(player.image->format,0,0,0);
     SDL_SetColorKey(player.image, SDL_SRCCOLORKEY, colorkey);
-    SDL_SetColorKey(bullet.image, SDL_SRCCOLORKEY, colorkey);
+    // bullet colour key set in init_bullets
 
     /// GAME LOOP
     while(quit == false)
     {
+        // Grab start of fram
+        frame_start = SDL_GetTicks();
 
         /// Events
         quit = events();
@@ -84,15 +83,7 @@ int main(int argc, char* args[])
         else player.vel_y = 0;
 
         // Bullets
-        if (bullet.shot == true)
-        {
-            move_bullets();
-        }
-        else
-        {
-            bullet.x = player.x;
-            bullet.y = player.y;
-        }
+        move_bullets();
 
 
         /// Drawing
@@ -100,17 +91,28 @@ int main(int argc, char* args[])
         apply_surface(background.x, background.y, sector_img, screen);
         apply_surface(background.x + SCREEN_WIDTH, background.y, sector_img, screen);
         apply_surface(player.x, player.y, player.image, screen);
-        if (bullet.shot == true)
-            apply_surface(bullet.x, bullet.y, bullet.image, screen);
+
+        draw_bullets(screen);
 
         // update screen
         SDL_Flip(screen);
+
+        frame_end = SDL_GetTicks();
+        frame_time = frame_end - frame_start;
+        //printf("%d => %d\n",frame_start, frame_end);
+
+        if (frame_time < (FPS_LIMIT / 1000))
+            SDL_Delay((FPS_LIMIT - frame_time)/1000);
+
+        //int test = (FPS_LIMIT - frame_time)/1000;
+        //printf("%d\n",test);
+
     }
 
     // Free loaded image
     SDL_FreeSurface(sector_img);
     SDL_FreeSurface(player.image);
-    SDL_FreeSurface(bullet.image);
+    free_bullets();
 
     // Quit SDL
     SDL_Quit();

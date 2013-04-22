@@ -37,3 +37,21 @@ SDL_Surface* init_screen()
 
     return screen;
 }
+
+/// BULLET DRAWING
+void draw_bullets(SDL_Surface* screen)
+{
+    int i;
+    for (i = 0; i < MAX_BULLETS;i++)
+    {
+        if (bullet[i].shot == true)
+            apply_surface(bullet[i].x, bullet[i].y, bullet[i].image, screen);
+    }
+}
+
+void free_bullets()
+{
+    int i;
+    for (i = 0; i < MAX_BULLETS; i++)
+        SDL_FreeSurface(bullet[i].image);
+}

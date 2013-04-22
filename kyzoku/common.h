@@ -34,4 +34,4 @@ struct projectile
     int speed;
     bool shot;
 };
-struct projectile bullet;
+struct projectile bullet[MAX_BULLETS];
