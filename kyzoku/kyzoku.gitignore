@@ -5,3 +5,7 @@
 /bin/*
 *.layout
 *.depend
+
+#GCC files
+*.o
+*.cpb
