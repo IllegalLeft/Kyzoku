@@ -9,3 +9,6 @@
 #GCC files
 *.o
 *.cpb
+*.swp
+CON
+kyzoku
