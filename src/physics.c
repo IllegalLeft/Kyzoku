@@ -37,11 +37,11 @@ void limit_vel(int x, int y)
     //printf("vx:%d vy:%d\n",player.vel_x, player.vel_y);
 }
 
-void apply_velocity(struct sprite *Sprite)
+void apply_velocity(struct player_ship* player)
 {
     // apply velocity
-    Sprite->x += Sprite->vel_x;
-    Sprite->y += Sprite->vel_y;
+    player->x += player->vel_x;
+    player->y += player->vel_y;
 }
 
 /// BULLET PHYSICS
@@ -58,7 +58,7 @@ void init_bullets()
         bullet[i].vel_y = 0;
         bullet[i].shot = false;
         // Image
-        bullet[i].image = load_img("bullet.bmp");
+        bullet[i].image = load_img("../gfx/bullet.bmp");
         // Colour key
         Uint32 colorkey = SDL_MapRGB(bullet[i].image->format,0,0,0);
         SDL_SetColorKey(bullet[i].image, SDL_SRCCOLORKEY, colorkey);

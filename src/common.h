@@ -12,16 +12,23 @@
 // bool type
 typedef enum { false, true } bool;
 
-// basic sprite structure
-struct sprite
+// player
+struct player_ship
 {
     SDL_Surface* image;
     int x;
     int y;
     int vel_x;
     int vel_y;
-};
-struct sprite player;
+} player;
+
+// Enemy ship
+struct enemy_ship
+{
+	SDL_Surface* image;
+	int x;
+	int y;
+} enemy;
 
 //basic bullet structure
 struct projectile
@@ -33,5 +40,4 @@ struct projectile
     int vel_y;
     int speed;
     bool shot;
-};
-struct projectile bullet[MAX_BULLETS];
+} bullet[MAX_BULLETS];

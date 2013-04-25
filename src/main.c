@@ -20,15 +20,14 @@ int main(int argc, char* args[])
     player.vel_y = 0;
 
     init_bullets();
-    int next_bullet = 0;
-
+    
     // set background data
     background.x = 0;
     background.y = 0;
 
     // the images
-    player.image = load_img("ship.bmp");
-    SDL_Surface* sector_img = load_img("sky.bmp");
+    player.image = load_img("../gfx/ship.bmp");
+    SDL_Surface* sector_img = load_img("../gfx/sky.bmp");
     // Bullet img loaded in init_bullets()
 
 
