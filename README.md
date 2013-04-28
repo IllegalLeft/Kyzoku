@@ -22,5 +22,5 @@ CodeBlocks
 
 Controls
 ----------
-Arrow Keys - Movement
-D - Shoot
+Arrow Keys or WASD - Movement
+C or J - Shoot
