@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
         apply_velocity(&player);
 
         // apply background scrolling
-        background.x -= 1;
+        background.x -= 2;
         if(background.x < -SCREEN_WIDTH)
             background.x = 0;
 
@@ -95,10 +95,8 @@ int main(int argc, char* argv[])
         // update screen
         SDL_Flip(screen);
 
-        //frame_end = SDL_GetTicks();
         frame_time = SDL_GetTicks() - frame_start;
-        //printf("%d => %d\n",frame_start, frame_end);
-
+        // wait the rest of the frame
         if (frame_time < (1000/ FPS_LIMIT))
             SDL_Delay(1000 / (FPS_LIMIT - frame_time));
 

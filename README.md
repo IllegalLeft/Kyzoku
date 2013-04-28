@@ -17,3 +17,10 @@ GCC
 CodeBlocks
 ----------
 - .cpb file included
+
+
+
+Controls
+----------
+Arrow Keys - Movement
+D - Shoot

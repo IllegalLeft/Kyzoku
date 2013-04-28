@@ -65,7 +65,7 @@ void init_bullets()
     }
 }
 
-void shoot()
+void player_shoot()
 {
     int next = -1;
 

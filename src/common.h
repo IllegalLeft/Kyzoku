@@ -8,7 +8,7 @@
 #include <SDL/SDL.h>
 
 #define MAX_BULLETS     10
-#define SHOT_WAIT       120
+#define SHOT_WAIT       240
 
 // bool type
 typedef enum { false, true } bool;
