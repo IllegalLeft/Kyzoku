@@ -8,7 +8,6 @@
 bool events()
 {
     SDL_Event event;
-    Uint32 ticks = SDL_GetTicks();
 
     //Event stuff
     while (SDL_PollEvent(&event))
@@ -40,8 +39,11 @@ bool events()
 
     limit_vel(player.vel_x, player.vel_y);
 
-    if ((keystates[SDLK_SPACE]) && ((ticks % 120) <= 6))
+    if ( (keystates[SDLK_SPACE]) && (SDL_GetTicks() > SHOT_WAIT + player.last_shot) )
+    {
         shoot();
+        player.last_shot = SDL_GetTicks();
+    }
 
     return false;
 }

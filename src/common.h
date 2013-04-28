@@ -8,6 +8,7 @@
 #include <SDL/SDL.h>
 
 #define MAX_BULLETS     10
+#define SHOT_WAIT       120
 
 // bool type
 typedef enum { false, true } bool;
@@ -20,6 +21,7 @@ struct player_ship
     int y;
     int vel_x;
     int vel_y;
+    int last_shot;
 } player;
 
 // Enemy ship

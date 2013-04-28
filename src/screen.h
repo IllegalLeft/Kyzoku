@@ -10,4 +10,4 @@
 #define SCREEN_HEIGHT   480
 #define SCREEN_BPP      32
 
-#define FPS_LIMIT       60
+#define FPS_LIMIT       120

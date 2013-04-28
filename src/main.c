@@ -30,7 +30,6 @@ int main(int argc, char* argv[])
     SDL_Surface* sector_img = load_img("../gfx/sky.bmp");
     // Bullet img loaded in init_bullets()
 
-
     bool quit = false;
 
     // Start SDL
@@ -96,12 +95,12 @@ int main(int argc, char* argv[])
         // update screen
         SDL_Flip(screen);
 
-        frame_end = SDL_GetTicks();
-        frame_time = frame_end - frame_start;
+        //frame_end = SDL_GetTicks();
+        frame_time = SDL_GetTicks() - frame_start;
         //printf("%d => %d\n",frame_start, frame_end);
 
-        if (frame_time < (FPS_LIMIT / 1000))
-            SDL_Delay((FPS_LIMIT - frame_time)/1000);
+        if (frame_time < (1000/ FPS_LIMIT))
+            SDL_Delay(1000 / (FPS_LIMIT - frame_time));
 
         //int test = (FPS_LIMIT - frame_time)/1000;
         //printf("%d\n",test);
