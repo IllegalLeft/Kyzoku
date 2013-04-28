@@ -10,7 +10,7 @@ struct background_data
 };
 struct background_data background;
 
-int main(int argc, char* args[])
+int main(int argc, char* argv[])
 {
 
     // set player data
@@ -20,7 +20,7 @@ int main(int argc, char* args[])
     player.vel_y = 0;
 
     init_bullets();
-    
+
     // set background data
     background.x = 0;
     background.y = 0;

@@ -80,9 +80,7 @@ void shoot()
         }
     }
 
-    if (next < 0)
-        return 1;
-    else
+    if (!(next < 0))
     {
         bullet[next].shot = true;
         return 0;
