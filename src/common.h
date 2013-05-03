@@ -7,6 +7,7 @@
 #include "screen.h"
 #include <SDL/SDL.h>
 
+
 #define MAX_BULLETS     10
 #define SHOT_WAIT       240
 
@@ -17,6 +18,8 @@ typedef enum { false, true } bool;
 struct player_ship
 {
     SDL_Surface* image;
+    int h;
+    int w;
     int x;
     int y;
     int vel_x;
@@ -28,14 +31,21 @@ struct player_ship
 struct enemy_ship
 {
 	SDL_Surface* image;
+    int h;
+    int w;
 	int x;
 	int y;
+    int vel_x;
+    int vel_y;
+    bool active;
 } enemy;
 
 //basic bullet structure
 struct projectile
 {
     SDL_Surface* image;
+    int h;
+    int w;
     int x;
     int y;
     int vel_x;
