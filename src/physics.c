@@ -4,6 +4,7 @@
 
 #include "common.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include "gfx.h"
 
 void limit_vel(int x, int y)
@@ -175,7 +176,7 @@ void move_bullets()
 void enemy_spawn()
 {
     // spawn enemy at random place on the right
-    enemy.y = SCREEN_HEIGHT / 2; // Needs to be random soon enough...
+    enemy.y = rand() % (SCREEN_HEIGHT - player.h); // Needs to be random soon enough...
     enemy.x = SCREEN_WIDTH; // Offscreen
     enemy.w = ENEMY_WIDTH;
     enemy.h = ENEMY_HEIGHT;

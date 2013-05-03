@@ -2,6 +2,8 @@
 #include "SDL/SDL.h"
 #include "common.h"
 #include "gfx.h"
+#include <stdlib.h>
+#include <time.h>
 
 
 //background data
@@ -14,6 +16,8 @@ struct background_data background;
 
 int main(int argc, char* argv[])
 {
+
+    srand(time(NULL));
 
     // set player data
     player.x = (SCREEN_WIDTH - 30) / 2;
@@ -44,8 +48,8 @@ int main(int argc, char* argv[])
     int frame_start, frame_time;
 
     // Redirect stdout and stderr streams to console (SDL sends to files by default)
-    //freopen("CON", "w", stdout); // redirects stdout
-    //freopen("CON", "w", stderr); // redirects stderr
+    freopen("CON", "w", stdout); // redirects stdout
+    freopen("CON", "w", stderr); // redirects stderr
 
     SDL_Surface* screen = init_screen();
 
