@@ -35,8 +35,8 @@ int main(int argc, char* argv[])
 
     // the images
     player.image = load_img("../gfx/ship.bmp");
+    enemy.image = load_img("../gfx/enemy.bmp");
     SDL_Surface* sector_img = load_img("../gfx/sky.bmp");
-    enemy.image = load_img("../gfx/ship.bmp");
     // Bullet img loaded in init_bullets()
 
     bool quit = false;
@@ -56,6 +56,7 @@ int main(int argc, char* argv[])
     // Colour keying
     int colorkey = SDL_MapRGB(player.image->format,0,0,0);
     SDL_SetColorKey(player.image, SDL_SRCCOLORKEY, colorkey);
+    SDL_SetColorKey(enemy.image, SDL_SRCCOLORKEY, colorkey);
     // bullet colour key set in init_bullets
 
     /// GAME LOOP

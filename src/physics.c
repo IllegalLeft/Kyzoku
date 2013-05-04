@@ -181,7 +181,7 @@ void enemy_spawn()
     enemy.w = ENEMY_WIDTH;
     enemy.h = ENEMY_HEIGHT;
     enemy.active = true;
-    enemy.vel_x = -1;
+    enemy.vel_x = -2;
     enemy.vel_y = 0;
 }
 
@@ -192,10 +192,14 @@ void enemy_move()
         // move enemies forward (to left)
         enemy.x += enemy.vel_x;
         enemy.y += enemy.vel_y;
-    }    
+    }
     else
     {
         enemy.x = SCREEN_WIDTH;     //Offscreen, bottom, right
         enemy.y = SCREEN_HEIGHT;    //   "
     }
+    
+    // Catch off-screen boogies!
+    if (enemy.x <= (-enemy.w))
+        enemy.active = false;
 }
