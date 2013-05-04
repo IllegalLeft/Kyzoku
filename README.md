@@ -8,6 +8,7 @@ Building Kyzoku
 ---------------
 Requirements:
 	- SDL 1.2
+	- SDL_image 1.2
 
 GCC
 ---
