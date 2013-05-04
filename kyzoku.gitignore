@@ -7,8 +7,8 @@
 *.depend
 
 #GCC files
-src/*.o
-src/*.cpb
-src/*.swp
-src/CON
-src/kyzoku
+*.o
+*.cpb
+*.swp
+/CON/*
+kyzoku
