@@ -3,6 +3,7 @@
 */
 
 #include "SDL/SDL.h"
+#include "SDL/SDL_image.h"
 #include "common.h"
 
 // apply_surface
@@ -20,15 +21,18 @@ void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination)
 
 SDL_Surface* load_img(char* filename)
 {
-    SDL_Surface* img = SDL_LoadBMP(filename);
+    //SDL_Surface* img = SDL_LoadBMP(filename);
+    SDL_Surface* img = IMG_Load(filename);
+    if (img != NULL)
+        return img;
 
-    return img;
+    return -1;
 }
 
 SDL_Surface* init_screen()
 {
     // icon
-    SDL_Surface* icon = load_img("icon.bmp");
+    SDL_Surface* icon = load_img("../gfx/icon.bmp");
     SDL_WM_SetIcon(icon, NULL);
 
     // screen surface

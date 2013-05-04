@@ -1,5 +1,5 @@
 TARGET = kyzoku
-LIBS = -lm -lSDL
+LIBS = -lm -lSDL -lSDL_image
 CC = gcc
 CFLAGS = -g -Wall
 

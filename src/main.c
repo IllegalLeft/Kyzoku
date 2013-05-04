@@ -34,8 +34,8 @@ int main(int argc, char* argv[])
     background.y = 0;
 
     // the images
-    player.image = load_img("../gfx/ship.bmp");
-    enemy.image = load_img("../gfx/enemy.bmp");
+    player.image = load_img("../gfx/player.png");
+    enemy.image = load_img("../gfx/enemy.png");
     SDL_Surface* sector_img = load_img("../gfx/sky.bmp");
     // Bullet img loaded in init_bullets()
 
@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
         apply_velocity(&player);
 
         // apply background scrolling
-        background.x -= 2;
+        background.x -= 1;
         if(background.x < -SCREEN_WIDTH)
             background.x = 0;
 
