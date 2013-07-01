@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
     // the images
     player.image = load_img("../gfx/player.png");
     enemy.image = load_img("../gfx/enemy.png");
-    SDL_Surface* sector_img = load_img("../gfx/sky.bmp");
+    SDL_Surface* sector_img = load_img("../gfx/background.png");
     // Bullet img loaded in init_bullets()
 
     bool quit = false;
