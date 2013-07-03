@@ -63,5 +63,14 @@ void free_bullets()
 /// Enemy Drawing
 void draw_enemies(SDL_Surface* screen)
 {
-    apply_surface(enemy.x, enemy.y, enemy.image, screen);
+    int i;
+    for (i = 0; i < MAX_ENEMIES; i++)
+        apply_surface(enemy[i].x, enemy[i].y, enemy[i].image, screen);
+}
+
+void free_enemies()
+{
+    int i;
+    for (i = 0; i < MAX_ENEMIES; i++)
+        SDL_FreeSurface(enemy[i].image);
 }

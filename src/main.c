@@ -28,6 +28,9 @@ int main(int argc, char* argv[])
     player.h = PLAYER_HEIGHT;
 
     init_bullets();
+    init_enemies();
+
+    int lastspawn = 0;
 
     // set background data
     background.x = 0;
@@ -35,7 +38,7 @@ int main(int argc, char* argv[])
 
     // the images
     player.image = load_img("../gfx/player.png");
-    enemy.image = load_img("../gfx/enemy.png");
+    //enemy.image = load_img("../gfx/enemy.png");
     SDL_Surface* sector_img = load_img("../gfx/background.png");
     // Bullet img loaded in init_bullets()
 
@@ -56,7 +59,7 @@ int main(int argc, char* argv[])
     // Colour keying
     int colorkey = SDL_MapRGB(player.image->format,0,0,0);
     SDL_SetColorKey(player.image, SDL_SRCCOLORKEY, colorkey);
-    SDL_SetColorKey(enemy.image, SDL_SRCCOLORKEY, colorkey);
+    // enemy colour key set in init_enemies
     // bullet colour key set in init_bullets
 
     /// GAME LOOP
@@ -97,8 +100,11 @@ int main(int argc, char* argv[])
 
         // Enemies
         enemy_move();
-        if (enemy.active != true)
+        if (SDL_GetTicks() >= 500 + lastspawn)
+        {
             enemy_spawn();
+            lastspawn = SDL_GetTicks();
+        }
 
         /// Drawing
         // Apply image to screen

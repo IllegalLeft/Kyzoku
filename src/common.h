@@ -9,6 +9,7 @@
 
 
 #define MAX_BULLETS     10
+#define MAX_ENEMIES     10
 #define SHOT_WAIT       240
 
 // bool type
@@ -38,7 +39,7 @@ struct enemy_ship
     int vel_x;
     int vel_y;
     bool active;
-} enemy;
+} enemy[MAX_ENEMIES];
 
 //basic bullet structure
 struct projectile

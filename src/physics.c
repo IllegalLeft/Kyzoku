@@ -48,52 +48,59 @@ void apply_velocity(struct player_ship* player)
 
 void check_collisions()
 {
-    bool collision = true;
+    bool collision;
     int A_top, A_bottom, A_right, A_left;
     int B_top, B_bottom, B_right, B_left;
-    int i;
+    int i, j;
 
     // Player + Bullet
     //// BLANK 4 NOW
 
     // ENEMY + Bullets
-    //   A       B    
-    A_top = enemy.y;
-    A_bottom = enemy.y + enemy.h;
-    A_left = enemy.x;
-    A_right = enemy.x + enemy.w;
-
-    // run through the bullets.
-    for (i = 0; i < MAX_BULLETS; i++)
+    //   A       B
+    for (j = 0; j < MAX_ENEMIES; j++)
     {
-
-        // Enemy top
-        if (bullet[i].shot == true)
+        if (enemy[j].active == true)
         {
-            collision = true;
+            A_top = enemy[j].y;
+            A_bottom = enemy[j].y + enemy[j].h;
+            A_left = enemy[j].x;
+            A_right = enemy[j].x + enemy[j].w;
 
-            B_top = bullet[i].y;
-            B_bottom = bullet[i].y + bullet[i].h;
-            B_left = bullet[i].x;
-            B_right = bullet[i].x + bullet[i].w;
-
-            if (A_top >= B_bottom)
-                collision = false;
-            // Enemy bottom
-            if (A_bottom <= B_top)
-                collision = false;
-            // Enemy left
-            if (A_left >= B_right)
-                collision = false;
-            // Enemy right
-            if (A_right <= B_left)
-                collision = false;
-            
-
-            if (collision == true)
+            // run through the bullets.
+            for (i = 0; i < MAX_BULLETS; i++)
             {
-                bullet[i].shot = false;
-                enemy.active = false;
+
+                // Enemy top
+                if (bullet[i].shot == true)
+                {
+                    collision = true;
+
+                    B_top = bullet[i].y;
+                    B_bottom = bullet[i].y + bullet[i].h;
+                    B_left = bullet[i].x;
+                    B_right = bullet[i].x + bullet[i].w;
+
+                    if (A_top >= B_bottom)
+                        collision = false;
+                    // Enemy bottom
+                    if (A_bottom <= B_top)
+                        collision = false;
+                    // Enemy left
+                    if (A_left >= B_right)
+                        collision = false;
+                    // Enemy right
+                    if (A_right <= B_left)
+                        collision = false;
+
+
+                    if (collision == true)
+                    {
+                        // B O O M !
+                        bullet[i].shot = false;
+                        enemy[j].active = false;
+                    }
+                }
             }
         }
     }
@@ -117,7 +124,7 @@ void init_bullets()
         // Image
         bullet[i].image = load_img("../gfx/bullet.bmp");
         // Colour key
-        Uint32 colorkey = SDL_MapRGB(bullet[i].image->format,0,0,0);
+        Uint32 colorkey = SDL_MapRGB(bullet[i].image->format, 0, 0, 0);
         SDL_SetColorKey(bullet[i].image, SDL_SRCCOLORKEY, colorkey);
     }
 }
@@ -173,33 +180,69 @@ void move_bullets()
 }
 
 // ENEMY PHYSICS
-void enemy_spawn()
+void init_enemies()
 {
-    // spawn enemy at random place on the right
-    enemy.y = rand() % (SCREEN_HEIGHT - player.h); // Needs to be random soon enough...
-    enemy.x = SCREEN_WIDTH; // Offscreen
-    enemy.w = ENEMY_WIDTH;
-    enemy.h = ENEMY_HEIGHT;
-    enemy.active = true;
-    enemy.vel_x = -2;
-    enemy.vel_y = 0;
+    int i;
+
+    for(i = 0; i < MAX_ENEMIES; i++)
+    {
+        // Data
+        enemy[i].h = 0;
+        enemy[i].w = 0;
+        enemy[i].x = 0;
+        enemy[i].y = 0;
+        enemy[i].active = false;
+        enemy[i].vel_x = 0;
+        enemy[i].vel_y = 0;
+        // Image
+        enemy[i].image = load_img("../gfx/enemy.png");
+        // Color Key
+        //Uint32 colorkey = SDL_MapRGB(enemy[i].image->format, 0, 0, 0);
+        //SDL_SetColorKey(enemy[i].image, SDL_SRCCOLORKEY, colorkey);
+    }
+}
+
+void enemy_spawn(int index)
+{
+    int i;
+    for (i = 0; i < MAX_ENEMIES; i++)
+    {
+        if (enemy[i].active == false)
+        {
+            // spawn enemy at random place on the right
+            enemy[i].y = rand() % (SCREEN_HEIGHT - player.h);
+            enemy[i].x = SCREEN_WIDTH; // Offscreen
+            enemy[i].w = ENEMY_WIDTH;
+            enemy[i].h = ENEMY_HEIGHT;
+            enemy[i].active = true;
+            enemy[i].vel_x = -2;
+            enemy[i].vel_y = 0;
+
+            return; // Spawn one at a time
+        }
+    }
 }
 
 void enemy_move()
 {
-    if (enemy.active == true)
+    int i;
+
+    for (i = 0; i < MAX_ENEMIES; i++)
     {
-        // move enemies forward (to left)
-        enemy.x += enemy.vel_x;
-        enemy.y += enemy.vel_y;
+        if (enemy[i].active == true)
+        {
+            // move enemies forward (to left)
+            enemy[i].x += enemy[i].vel_x;
+            enemy[i].y += enemy[i].vel_y;
+        }
+        else
+        {
+            enemy[i].x = SCREEN_WIDTH;     //Offscreen, bottom, right
+            enemy[i].y = SCREEN_HEIGHT;    //   "
+        }
+
+        // Catch off-screen bogies!
+        if (enemy[i].x <= (-enemy[i].w))
+            enemy[i].active = false;
     }
-    else
-    {
-        enemy.x = SCREEN_WIDTH;     //Offscreen, bottom, right
-        enemy.y = SCREEN_HEIGHT;    //   "
-    }
-    
-    // Catch off-screen boogies!
-    if (enemy.x <= (-enemy.w))
-        enemy.active = false;
 }

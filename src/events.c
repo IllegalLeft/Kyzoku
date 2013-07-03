@@ -21,6 +21,9 @@ bool events()
             {
             case SDLK_ESCAPE:
                 return true;
+                break;
+            default:
+                break;
             }
         }
     }
