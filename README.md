@@ -7,17 +7,18 @@ Your basic shmup. It's just for practice using SDL. Yay!
 Building Kyzoku
 ---------------
 Requirements:
-	- SDL 1.2
-	- SDL_image 1.2
+- SDL 1.2
+- SDL_image 1.2
 
 GCC
 ---
 - compile using the makefile in  /src/
+- type 'make' and if all goes well, it should compile to 'kyzoku' which you can then run.
 
 
-CodeBlocks
-----------
-- .cpb file included
+For CodeBlocks
+--------------
+- .cpb file included!
 
 
 
