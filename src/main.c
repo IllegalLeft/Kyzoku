@@ -4,7 +4,13 @@
 #include "gfx.h"
 #include <stdlib.h>
 #include <time.h>
+// More Text stuff --> move later
+#include "SDL/SDL_ttf.h"
 
+// Text stuff -> will move to better spot eventually
+SDL_Surface* healthbar = NULL;
+TTF_Font* font = NULL;
+SDL_Color textColour = {255, 255, 255};
 
 //background data
 struct background_data
@@ -49,6 +55,9 @@ int main(int argc, char* argv[])
         return 1;
 
     int frame_start, frame_time;
+	
+	if (TTF_Init() == -1)
+		return 1;
 
     // Redirect stdout and stderr streams to console (SDL sends to files by default)
     freopen("CON", "w", stdout); // redirects stdout
@@ -113,6 +122,11 @@ int main(int argc, char* argv[])
         apply_surface(player.x, player.y, player.image, screen);
         draw_enemies(screen);
         draw_bullets(screen);
+		
+		// More Text Stuff -> will move later
+		font = TTF_OpenFont("ProggyClean.ttf", 24);
+		healthbar = TTF_RenderText_Solid(font, "Health: ||||||||", textColour);
+		apply_surface(15, 450, healthbar, screen);
 
         // update screen
         SDL_Flip(screen);
@@ -131,6 +145,11 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(sector_img);
     SDL_FreeSurface(player.image);
     free_bullets();
+	
+	// Free Text Stuff --> move later
+	SDL_FreeSurface(healthbar);
+	TTF_CloseFont(font);
+	TTF_Quit();
 
     // Quit SDL
     SDL_Quit();
