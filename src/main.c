@@ -4,15 +4,9 @@
 #include "gfx.h"
 #include <stdlib.h>
 #include <time.h>
-// More Text stuff --> move later
 #include "SDL/SDL_ttf.h"
 
-// Text stuff -> will move to better spot eventually
-SDL_Surface* healthbar = NULL;
-TTF_Font* font = NULL;
-SDL_Color textColour = {255, 255, 255};
-
-//background data
+// Background data
 struct background_data
 {
     int x; // Change these to double/float to allow smaller scrolling increments?
@@ -122,12 +116,11 @@ int main(int argc, char* argv[])
         apply_surface(player.x, player.y, player.image, screen);
         draw_enemies(screen);
         draw_bullets(screen);
-		
-		// More Text Stuff -> will move later
-		font = TTF_OpenFont("ProggyClean.ttf", 24);
-		healthbar = TTF_RenderText_Solid(font, "Health: ||||||||", textColour);
-		apply_surface(15, 450, healthbar, screen);
 
+		// Text functions here
+		text_function("Health: |||||||", 15, 450, screen);
+		text_function("High Score: OVER 9000!!!", 215, 0, screen);
+		
         // update screen
         SDL_Flip(screen);
 
@@ -146,13 +139,9 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(player.image);
     free_bullets();
 	
-	// Free Text Stuff --> move later
-	SDL_FreeSurface(healthbar);
-	TTF_CloseFont(font);
-	TTF_Quit();
-
-    // Quit SDL
+    // Quit SDL and TTF
     SDL_Quit();
+	TTF_Quit();
 
     return 0;
 }

@@ -6,6 +6,8 @@
 #include "SDL/SDL_image.h"
 #include "common.h"
 
+#include "SDL/SDL_ttf.h"
+
 // apply_surface
 void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination)
 {
@@ -73,4 +75,17 @@ void free_enemies()
     int i;
     for (i = 0; i < MAX_ENEMIES; i++)
         SDL_FreeSurface(enemy[i].image);
+}
+
+void text_function(char* message, int xcoord, int ycoord, SDL_Surface* screen)
+{
+	SDL_Color font_colour = {255, 255, 255};
+	TTF_Font* font = TTF_OpenFont("ProggyClean.ttf", 24);
+	
+	SDL_Surface* text = TTF_RenderText_Solid(font, message, font_colour);
+	
+	apply_surface(xcoord, ycoord, text, screen);
+	
+	SDL_FreeSurface(text);
+	TTF_CloseFont(font);
 }
