@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
         return 1;
 
     int frame_start, frame_time;
-	
+
 	if (TTF_Init() == -1)
 		return 1;
 
@@ -121,7 +121,7 @@ int main(int argc, char* argv[])
 		// Text functions here
 		text_function("Health: |||||||", 15, 450, screen);
 		text_function("High Score: OVER 9000!!!", 215, 0, screen);
-		
+
         // update screen
         SDL_Flip(screen);
 
@@ -139,7 +139,7 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(sector_img);
     SDL_FreeSurface(player.image);
     free_bullets();
-	
+
     // Quit SDL and TTF
     SDL_Quit();
 	TTF_Quit();

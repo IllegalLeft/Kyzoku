@@ -52,10 +52,10 @@ void check_collisions()
     int A_top, A_bottom, A_right, A_left;
     int B_top, B_bottom, B_right, B_left;
     int i, j;
-	
+
     // Player + Bullet
     //// BLANK 4 NOW
-	
+
 	// Player + Enemy
 	//    A    t   B
 	// Grab the player's positon once rather than everytime through loop (saves cycles)
@@ -63,40 +63,40 @@ void check_collisions()
 	A_bottom = player.y + player.h;
 	A_left = player.x;
 	A_right = player.x + player.w;
-	
+
 	for (j = 0; j < MAX_ENEMIES; j++)
-	{	
+	{
 		if(enemy[j].active == true)
-		{	
+		{
 			B_top = enemy[j].y;
 			B_bottom = enemy[j].y + enemy[j].h;
 			B_left = enemy[j].x;
-			B_right = enemy[j].x + enemy[j].w;	
-			
+			B_right = enemy[j].x + enemy[j].w;
+
 			// Head-on collision
 			if(A_top == B_top && A_right > B_left && A_right < B_right)
 				collision = true;
-			
+
 			// Top right corner collision
 			if(A_right > B_left && A_right < B_right && A_bottom < B_top && A_bottom > B_bottom)
 				collision = true;
-				
+
 			// Bottom right corner collision
 			if(A_right > B_left && A_right < B_right && A_top > B_top && A_top < B_bottom)
 				collision = true;
-			
+
 			// Back-in collision
 			if(A_top == B_top && A_left < B_right && A_left > B_left)
 				collision = true;
-				
+
 			// Top left corner collision
 			if(A_left > B_left && A_left < B_right && A_top > B_top && A_top < B_bottom)
 				collision = true;
-			
+
 			// Bottom left corner collision
 			if(A_left > B_left && A_left < B_right && A_bottom > B_top && A_bottom < B_bottom)
 				collision = true;
-			
+
 			if(collision == true)
 			{
 				player.hp -= 10; // Amount to be tweaked
