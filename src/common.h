@@ -26,6 +26,7 @@ struct player_ship
     int vel_x;
     int vel_y;
     int last_shot;
+	int hp;
 } player;
 
 // Enemy ship

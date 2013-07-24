@@ -20,12 +20,13 @@ int main(int argc, char* argv[])
     srand(time(NULL));
 
     // set player data
-    player.x = (SCREEN_WIDTH - 30) / 2;
-    player.y = (SCREEN_HEIGHT - 30) / 2;
+    player.x = (SCREEN_WIDTH - 32) / 2;
+    player.y = (SCREEN_HEIGHT - 32) / 2;
     player.vel_x = 0;
     player.vel_y = 0;
     player.w = PLAYER_WIDTH;
     player.h = PLAYER_HEIGHT;
+	player.hp = 100; // For now, may need tweaking as we go
 
     init_bullets();
     init_enemies();
