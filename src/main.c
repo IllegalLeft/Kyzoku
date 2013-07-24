@@ -3,6 +3,7 @@
 #include "common.h"
 #include "gfx.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
 #include "SDL/SDL_ttf.h"
 
@@ -27,6 +28,7 @@ int main(int argc, char* argv[])
     player.w = PLAYER_WIDTH;
     player.h = PLAYER_HEIGHT;
 	player.hp = 100; // For now, may need tweaking as we go
+	player.score = 0;
 
     init_bullets();
     init_enemies();
@@ -36,6 +38,10 @@ int main(int argc, char* argv[])
     // set background data
     background.x = 0;
     background.y = 0;
+
+    // Text data
+    char score_str[] = "Score: \0\0\0\0\0\0\0\0\0\0";
+    char health_str[] = "Health: \0\0\0";
 
     // the images
     player.image = load_img("../gfx/player.png");
@@ -97,7 +103,8 @@ int main(int argc, char* argv[])
             player.vel_y /= 2;
         else player.vel_y = 0;
 
-        check_collisions();
+        if (quit != true)
+            quit = check_collisions();
 
         // Bullets
         move_bullets();
@@ -118,9 +125,11 @@ int main(int argc, char* argv[])
         draw_enemies(screen);
         draw_bullets(screen);
 
-		// Text functions here
-		text_function("Health: |||||||", 15, 450, screen);
-		text_function("High Score: OVER 9000!!!", 215, 0, screen);
+		// Text drawing
+		sprintf(health_str, "Health: %d", player.hp);
+		sprintf(score_str, "Score: %d", player.score);
+		text(health_str, 15, 450, screen);
+		text(score_str, 215, 0, screen);
 
         // update screen
         SDL_Flip(screen);

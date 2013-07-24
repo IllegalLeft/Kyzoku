@@ -46,7 +46,7 @@ void apply_velocity(struct player_ship* player)
     player->y += player->vel_y;
 }
 
-void check_collisions()
+bool check_collisions()
 {
     bool collision;
     int A_top, A_bottom, A_right, A_left;
@@ -100,6 +100,9 @@ void check_collisions()
 			if(collision == true)
 			{
 				player.hp -= 10; // Amount to be tweaked
+				if (player.hp <= 0)
+                    return true; // True, the player is dead!
+				player.score += enemy[j].value;
 				enemy[j].active = false;
 				collision = false; // Reset boolean
 			}
@@ -146,7 +149,8 @@ void check_collisions()
 
                     if (collision == true)
                     {
-                        // B O O M !
+                        // B O O M ! (collision happens)
+                        player.score += enemy[j].value;
                         bullet[i].shot = false;
                         enemy[j].active = false;
                     }
@@ -154,6 +158,7 @@ void check_collisions()
             }
         }
     }
+    return false;
 }
 
 /// BULLET PHYSICS
@@ -267,6 +272,7 @@ void enemy_spawn(int index)
             enemy[i].active = true;
             enemy[i].vel_x = -2;
             enemy[i].vel_y = 0;
+            enemy[i].value = 10;
 
             return; // Spawn one at a time
         }

@@ -27,6 +27,7 @@ struct player_ship
     int vel_y;
     int last_shot;
 	int hp;
+	int score;
 } player;
 
 // Enemy ship
@@ -40,6 +41,7 @@ struct enemy_ship
     int vel_x;
     int vel_y;
     bool active;
+    int value;
 } enemy[MAX_ENEMIES];
 
 //basic bullet structure
