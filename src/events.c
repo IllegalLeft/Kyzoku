@@ -3,7 +3,9 @@
 */
 
 #include "SDL/SDL.h"
+
 #include "common.h"
+#include "physics.h"
 
 bool events()
 {

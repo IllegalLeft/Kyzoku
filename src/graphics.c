@@ -4,11 +4,12 @@
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
-#include "common.h"
-
 #include "SDL/SDL_ttf.h"
 
-// apply_surface
+#include "common.h"
+
+
+// General Drawing
 void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination)
 {
     // Make a temp rect to hold the offsets
@@ -44,7 +45,7 @@ SDL_Surface* init_screen()
     return screen;
 }
 
-/// BULLET DRAWING
+// Bullet Drawing
 void draw_bullets(SDL_Surface* screen)
 {
     int i;
@@ -62,7 +63,7 @@ void free_bullets()
         SDL_FreeSurface(bullet[i].image);
 }
 
-/// Enemy Drawing
+// Enemy Drawing
 void draw_enemies(SDL_Surface* screen)
 {
     int i;
@@ -77,6 +78,8 @@ void free_enemies()
         SDL_FreeSurface(enemy[i].image);
 }
 
+
+// Text Drawing
 void text(char* message, int xcoord, int ycoord, SDL_Surface* screen)
 {
 	SDL_Color font_colour = {255, 255, 255}; // white

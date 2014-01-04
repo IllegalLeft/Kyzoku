@@ -2,28 +2,33 @@
     Physics
 */
 
-#include "common.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "gfx.h"
+
+//#include "physics.h"
+#include "common.h"
+#include "graphics.h"
+
 
 void limit_vel(int x, int y)
 {
+    int vel_limit = 200; // Speed of player
+    
     // speed
     player.vel_x = x * 1;
     player.vel_y = y * 1;
 
     // limit x velocity
-    if (player.vel_x > 10)
-        player.vel_x = 10;
-    if (player.vel_x < -10)
-        player.vel_x = -10;
+    if (player.vel_x > vel_limit)
+        player.vel_x = vel_limit;
+    if (player.vel_x < -vel_limit)
+        player.vel_x = -vel_limit;
 
     // limit y velocity
-    if (player.vel_y > 10)
-        player.vel_y = 10;
-    if (player.vel_y < -10)
-        player.vel_y = -10;
+    if (player.vel_y > vel_limit)
+        player.vel_y = vel_limit;
+    if (player.vel_y < -vel_limit)
+        player.vel_y = -vel_limit;
 
     //
     if((player.x + player.vel_x) > (SCREEN_WIDTH - 30))
@@ -161,7 +166,7 @@ bool check_collisions()
     return false;
 }
 
-/// BULLET PHYSICS
+// Bullet Physics
 void init_bullets()
 {
     int i;
@@ -234,7 +239,7 @@ void move_bullets()
     reset_bullets();
 }
 
-// ENEMY PHYSICS
+// Enemy Physics
 void init_enemies()
 {
     int i;
@@ -257,7 +262,7 @@ void init_enemies()
     }
 }
 
-void enemy_spawn(int index)
+void enemy_spawn()
 {
     int i;
     for (i = 0; i < MAX_ENEMIES; i++)

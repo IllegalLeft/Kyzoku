@@ -1,11 +1,17 @@
-// Include SDL functions and data types
+/*
+    Main
+*/
+
 #include "SDL/SDL.h"
-#include "common.h"
-#include "gfx.h"
+#include "SDL/SDL_ttf.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include "SDL/SDL_ttf.h"
+
+#include "common.h"
+#include "graphics.h"
+#include "physics.h"
 
 // Background data
 struct background_data
@@ -42,6 +48,7 @@ int main(int argc, char* argv[])
     // Text data
     char score_str[] = "Score: \0\0\0\0\0\0\0\0\0\0";
     char health_str[] = "Health: \0\0\0";
+    char title_str[] = "Kyzoku - \0\0\0\0\0";
 
     // the images
     player.image = load_img("../gfx/player.png");
@@ -115,6 +122,10 @@ int main(int argc, char* argv[])
         {
             enemy_spawn();
             lastspawn = SDL_GetTicks();
+
+            // FPS in title
+            sprintf(title_str, "Kyzoku - %d", frame_time);
+            SDL_WM_SetCaption(title_str, NULL);
         }
 
         /// Drawing
@@ -135,13 +146,11 @@ int main(int argc, char* argv[])
         SDL_Flip(screen);
 
         frame_time = SDL_GetTicks() - frame_start;
+        //sprintf(title_str, "Kyzoku - %d", frame_time);
+        //SDL_WM_SetCaption(title_str, NULL);
         // wait the rest of the frame
         if (frame_time < (1000/ FPS_LIMIT))
             SDL_Delay(1000 / (FPS_LIMIT - frame_time));
-
-        //int test = (FPS_LIMIT - frame_time)/1000;
-        //printf("%d\n",test);
-
     }
 
     // Free loaded image
