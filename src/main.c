@@ -137,7 +137,7 @@ int main(int argc, char* argv[])
         draw_bullets(screen);
 
 		// Text drawing
-		sprintf(health_str, "Health: %d", player.hp);
+		sprintf(health_str, "Health: %d     %dx %dy", player.hp, player.x, player.y);
 		sprintf(score_str, "Score: %d", player.score);
 		text(health_str, 15, 450, screen);
 		text(score_str, 215, 0, screen);
@@ -159,8 +159,8 @@ int main(int argc, char* argv[])
     free_bullets();
 
     // Quit SDL and TTF
-    SDL_Quit();
 	TTF_Quit();
+    SDL_Quit();
 
     return 0;
 }

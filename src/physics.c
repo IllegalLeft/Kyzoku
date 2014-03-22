@@ -51,60 +51,81 @@ void apply_velocity(struct player_ship* player)
     player->y += player->vel_y;
 }
 
+bool get_collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
+{
+    // NOTE: The 'top', 'bottom', etc are as you would think.
+    //        top
+    //      +------+
+    // left |      | right 
+    //      |      | 
+    //      +------+
+    //       bottom
+    //
+    int top1, bottom1, right1, left1;
+    int top2, bottom2, right2, left2;
+
+    // Sides of the objects
+    top1 = y1;
+    bottom1 = y1 + h1;
+    left1 = x1;
+    right1 = x1 + w1;
+
+    top2 = y2;
+    bottom2 = y2 + h2;
+    left2 = x2;
+    right2 = x2 + w2;
+
+    // Check collisions (in reference to object 1):
+    // Left collision
+    // Right collision
+
+    // Top corners
+    if (top1 >= top2 && top1 <= bottom2)
+    {
+        // Top-left corner collision
+        if (left1 >= left2 && left1 <= right2)
+            return true;
+        // Top-right corner collision
+        if (right1 >= left2 && right1 <= right2)
+            return true;
+    }
+    // Bottom corners
+    if (bottom1 <= bottom2 && bottom1 >= top2)
+    {
+        // Bottom-left corner collision
+        if (left1 >= left2 && left1 <= right2)
+            return true;
+        // Bottom-right corner collision
+        if (right1 >= left2 && right1 <= right2)
+            return true;
+    }
+
+    // if all else fails...
+    return false;
+}
+
 bool check_collisions()
 {
     bool collision;
-    int A_top, A_bottom, A_right, A_left;
-    int B_top, B_bottom, B_right, B_left;
+    //int A_top, A_bottom, A_right, A_left;
+    //int B_top, B_bottom, B_right, B_left;
     int i, j;
 
-    // Player + Bullet
+    // Player + Bullet (enemy)
     //// BLANK 4 NOW
 
 	// Player + Enemy
 	//    A    t   B
 	// Grab the player's positon once rather than everytime through loop (saves cycles)
-	A_top = player.y;
-	A_bottom = player.y + player.h;
-	A_left = player.x;
-	A_right = player.x + player.w;
-
 	for (j = 0; j < MAX_ENEMIES; j++)
 	{
 		if(enemy[j].active == true)
-		{
-			B_top = enemy[j].y;
-			B_bottom = enemy[j].y + enemy[j].h;
-			B_left = enemy[j].x;
-			B_right = enemy[j].x + enemy[j].w;
+        {
+            collision = get_collision(player.x, player.y, player.w, player.h, enemy[j].x, enemy[j].y, enemy[j].w, enemy[j].h);
 
-			// Head-on collision
-			if(A_top == B_top && A_right > B_left && A_right < B_right)
-				collision = true;
-
-			// Top right corner collision
-			if(A_right > B_left && A_right < B_right && A_bottom < B_top && A_bottom > B_bottom)
-				collision = true;
-
-			// Bottom right corner collision
-			if(A_right > B_left && A_right < B_right && A_top > B_top && A_top < B_bottom)
-				collision = true;
-
-			// Back-in collision
-			if(A_top == B_top && A_left < B_right && A_left > B_left)
-				collision = true;
-
-			// Top left corner collision
-			if(A_left > B_left && A_left < B_right && A_top > B_top && A_top < B_bottom)
-				collision = true;
-
-			// Bottom left corner collision
-			if(A_left > B_left && A_left < B_right && A_bottom > B_top && A_bottom < B_bottom)
-				collision = true;
-
-			if(collision == true)
+            if(collision == true)
 			{
-				player.hp -= 10; // Amount to be tweaked
+				player.hp -= 10;
 				if (player.hp <= 0)
                     return true; // True, the player is dead!
 				player.score += enemy[j].value;
@@ -120,11 +141,6 @@ bool check_collisions()
     {
         if (enemy[j].active == true)
         {
-            A_top = enemy[j].y;
-            A_bottom = enemy[j].y + enemy[j].h;
-            A_left = enemy[j].x;
-            A_right = enemy[j].x + enemy[j].w;
-
             // run through the bullets.
             for (i = 0; i < MAX_BULLETS; i++)
             {
@@ -132,25 +148,7 @@ bool check_collisions()
                 // Enemy top
                 if (bullet[i].shot == true)
                 {
-                    collision = true;
-
-                    B_top = bullet[i].y;
-                    B_bottom = bullet[i].y + bullet[i].h;
-                    B_left = bullet[i].x;
-                    B_right = bullet[i].x + bullet[i].w;
-
-                    if (A_top >= B_bottom)
-                        collision = false;
-                    // Enemy bottom
-                    if (A_bottom <= B_top)
-                        collision = false;
-                    // Enemy left
-                    if (A_left >= B_right)
-                        collision = false;
-                    // Enemy right
-                    if (A_right <= B_left)
-                        collision = false;
-
+                    collision = get_collision(enemy[j].x, enemy[j].y, enemy[j].w, enemy[j].h, bullet[i].x, bullet[i].y, bullet[i].w, bullet[i].h);
 
                     if (collision == true)
                     {
