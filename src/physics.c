@@ -53,7 +53,7 @@ void apply_velocity(struct player_ship* player)
 
 bool get_collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
 {
-    // NOTE: The 'top', 'bottom', etc are as you would think.
+    // NOTE: The 'top', 'bottom', etc are as you would think...
     //        top
     //      +------+
     // left |      | right 
@@ -75,30 +75,12 @@ bool get_collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h
     left2 = x2;
     right2 = x2 + w2;
 
-    // Check collisions (in reference to object 1):
-    // Left collision
-    // Right collision
-
-    // Top corners
-    if (top1 >= top2 && top1 <= bottom2)
-    {
-        // Top-left corner collision
-        if (left1 >= left2 && left1 <= right2)
+    // Check collisions (in reference to object 1)
+    // top or bottom inside?
+    if (((top2 >= top1) && (top2 <= bottom1)) || ((bottom2 >= top1) && (bottom2 <= bottom1)))
+        // right or left side inside?
+        if (((right2 >= left1) && (right2 <= right1)) || ((left2 >= left1) && (left2 <= right1)))
             return true;
-        // Top-right corner collision
-        if (right1 >= left2 && right1 <= right2)
-            return true;
-    }
-    // Bottom corners
-    if (bottom1 <= bottom2 && bottom1 >= top2)
-    {
-        // Bottom-left corner collision
-        if (left1 >= left2 && left1 <= right2)
-            return true;
-        // Bottom-right corner collision
-        if (right1 >= left2 && right1 <= right2)
-            return true;
-    }
 
     // if all else fails...
     return false;
@@ -112,10 +94,8 @@ bool check_collisions()
     int i, j;
 
     // Player + Bullet (enemy)
-    //// BLANK 4 NOW
 
-	// Player + Enemy
-	//    A    t   B
+    // Player & Enemy
 	// Grab the player's positon once rather than everytime through loop (saves cycles)
 	for (j = 0; j < MAX_ENEMIES; j++)
 	{
@@ -135,8 +115,7 @@ bool check_collisions()
 		}
 	}
 
-    // ENEMY + Bullets
-    //   A       B
+    // Enemy & Bullets
     for (j = 0; j < MAX_ENEMIES; j++)
     {
         if (enemy[j].active == true)
@@ -171,8 +150,8 @@ void init_bullets()
     for (i = 0; i < MAX_BULLETS;i++)
     {
         // set bullet data
-        bullet[i].x = player.x;
-        bullet[i].y = player.y;
+        bullet[i].x = 0; //player.x;
+        bullet[i].y = 0; //player.y;
         bullet[i].w = BULLET_HEIGHT;
         bullet[i].h = BULLET_WIDTH;
         bullet[i].speed = 4;
@@ -224,15 +203,21 @@ void move_bullets()
     {
         if (bullet[i].shot == true)
         {
+            // is it JUST shot?
+            if ((bullet[i].x == 0) && (bullet[i].y == 0))
+            {
+                bullet[i].x = player.x + player.w - BULLET_WIDTH;
+                bullet[i].y = player.y + (player.h / 2) - BULLET_HEIGHT;
+            }
+
             bullet[i].x += bullet[i].vel_x;
             bullet[i].y += bullet[i].vel_y;
         }
         else
         {
-            bullet[i].x = player.x;
-            bullet[i].y = player.y;
+            bullet[i].x = 0;
+            bullet[i].y = 0;
         }
-
     }
     reset_bullets();
 }

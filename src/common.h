@@ -9,20 +9,20 @@
 #include "screen.h"
 
 
-#define MAX_BULLETS     10
+#define MAX_BULLETS     2
 #define MAX_ENEMIES     10
 #define SHOT_WAIT       240
 
 // Dimensions
 // Player
-#define PLAYER_WIDTH  32
-#define PLAYER_HEIGHT 32
+#define PLAYER_WIDTH    32
+#define PLAYER_HEIGHT   32
 // Enemy
-#define ENEMY_WIDTH  32
-#define ENEMY_HEIGHT   32
+#define ENEMY_WIDTH     32
+#define ENEMY_HEIGHT    32
 // Bullet
-#define BULLET_WIDTH  32
-#define BULLET_HEIGHT   32
+#define BULLET_WIDTH    5
+#define BULLET_HEIGHT   5
 
 //Physics
 #define PLAYER_VEL_LIMIT 10
