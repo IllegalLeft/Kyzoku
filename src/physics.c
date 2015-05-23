@@ -211,7 +211,7 @@ void move_bullets()
             if ((bullet[i].x == 0) && (bullet[i].y == 0))
             {
                 bullet[i].x = player.x + player.w - BULLET_WIDTH;
-                bullet[i].y = player.y + (player.h / 2) - BULLET_HEIGHT;
+                bullet[i].y = player.y + (player.h - BULLET_HEIGHT)/2;
             }
 
             bullet[i].x += bullet[i].vel_x;
