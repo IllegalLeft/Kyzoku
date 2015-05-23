@@ -171,9 +171,6 @@ int main(int argc, char* argv[])
     // set random seed
     srand(time(NULL));
 
-    bool stopgame = true;   // false is game is playing
-                            // true is game is not playing (menu)
-
     // Start SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
         return 1;
@@ -195,6 +192,9 @@ int main(int argc, char* argv[])
     int menu_status = 1; // currently running menu = 1
     while (menu_status)
     {
+        // Grab start of fram
+        frame_start = SDL_GetTicks();
+
         menu_status = menu_events();
 
         if (menu_status == 2)
