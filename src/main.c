@@ -22,10 +22,18 @@ struct background_data
 };
 struct background_data background;
 
-int main(int argc, char* argv[])
+int gameloop()
 {
+    SDL_Surface* screen = SDL_GetVideoSurface();
+    int stopgame = false;
+    int frame_start, frame_time;
 
-    srand(time(NULL));
+    int lastspawn = 0;
+
+    // Text data
+    char score_str[] = "Score: \0\0\0\0\0\0\0\0\0\0";
+    char health_str[] = "Health: \0\0\0";
+    char title_str[] = "Kyzoku - \0\0\0\0\0";
 
     // set player data
     player.x = (SCREEN_WIDTH - 32) / 2;
@@ -38,57 +46,33 @@ int main(int argc, char* argv[])
 	player.score = 0;
     player.subweapon = 0; // Subweapon will be added later
 
-    if (init_bullets())
-    {
-        printf("Bullets failed to initialize.\n");
-        return 1;
-    }
-    init_enemies();
-
-    int lastspawn = 0;
-
     // set background data
     background.x = 0;
     background.y = 0;
 
-    // Text data
-    char score_str[] = "Score: \0\0\0\0\0\0\0\0\0\0";
-    char health_str[] = "Health: \0\0\0";
-    char title_str[] = "Kyzoku - \0\0\0\0\0";
+
+    // initialize entities
+    if (init_bullets())
+    {
+        fprintf(stderr, "Bullets failed to initialize.\n");
+        return 1;
+    }
+    init_enemies();
 
     // the images
     player.image = load_img("gfx/player.png");
     SDL_Surface* sector_img = load_img("gfx/background.png");
     SDL_Surface* sector = SDL_CreateRGBSurface(SDL_SWSURFACE, 640, 640, SCREEN_BPP, 0, 0, 0, 0);    // background is made of many 'sector_img's
     int i, j = 0;
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < 10; i++) // draw many bg tiles onto one surface
     {
         for (j = 0; j < 8; j++)
         {
             apply_surface(i * 64, j * 64, sector_img, sector);
         }
     }
-
     // Bullet img loaded in init_bullets()
     // enemy images loaded in init_enemies()
-
-    bool quit = false;
-
-    // Start SDL
-    if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
-        return 1;
-
-    int frame_start, frame_time;
-
-    // Start TTF lib
-    if (TTF_Init() == -1)
-		return 1;
-
-    // Redirect stdout and stderr streams to console (SDL sends to files by default)
-    freopen("CON", "w", stdout); // redirects stdout
-    freopen("CON", "w", stderr); // redirects stderr
-
-    SDL_Surface* screen = init_screen();
 
     // Colour keying
     int colorkey = SDL_MapRGB(player.image->format,0,0,0);
@@ -96,14 +80,16 @@ int main(int argc, char* argv[])
     // enemy colour key set in init_enemies
     // bullet colour key set in init_bullets
 
+
     /// GAME LOOP
-    while(quit == false)
+    // if the game needs to be played it will jump in here
+    while (stopgame == false)
     {
         // Grab start of fram
         frame_start = SDL_GetTicks();
 
         /// Events
-        quit = events();
+        stopgame = game_events();
 
         apply_velocity(&player);
 
@@ -127,8 +113,8 @@ int main(int argc, char* argv[])
             player.vel_y /= 2;
         else player.vel_y = 0;
 
-        if (quit != true)
-            quit = check_collisions();
+        if (stopgame != true)
+            stopgame = check_collisions();
 
         // Bullets
         move_bullets();
@@ -153,11 +139,11 @@ int main(int argc, char* argv[])
         draw_enemies(screen);
         draw_bullets(screen);
 
-		// Text drawing
-		sprintf(health_str, "Health: %d     %dx %dy", player.hp, player.x, player.y);
-		sprintf(score_str, "Score: %d", player.score);
-		text(health_str, 15, 450, screen);
-		text(score_str, 215, 0, screen);
+        // Text drawing
+        sprintf(health_str, "Health: %d     %dx %dy", player.hp, player.x, player.y);
+        sprintf(score_str, "Score: %d", player.score);
+        text(health_str, 15, 450, screen);
+        text(score_str, 215, 0, screen);
 
         // update screen
         SDL_Flip(screen);
@@ -170,10 +156,69 @@ int main(int argc, char* argv[])
             SDL_Delay(1000 / (FPS_LIMIT - frame_time));
     }
 
-    // Free loaded image
+    // Free loaded images
     SDL_FreeSurface(sector_img);
+    SDL_FreeSurface(sector);
     SDL_FreeSurface(player.image);
     free_bullets();
+    free_enemies();
+
+    return 0;
+}
+
+int main(int argc, char* argv[])
+{
+    // set random seed
+    srand(time(NULL));
+
+    bool stopgame = true;   // false is game is playing
+                            // true is game is not playing (menu)
+
+    // Start SDL
+    if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
+        return 1;
+
+    int frame_start, frame_time;
+
+    // Start TTF lib
+    if (TTF_Init() == -1)
+		return 1;
+
+    // Redirect stdout and stderr streams to console (SDL sends to files by default)
+    freopen("CON", "w", stdout); // redirects stdout
+    freopen("CON", "w", stderr); // redirects stderr
+
+    SDL_Surface* screen = init_screen();
+
+    char* menustr = "J or C -- Start Game\nESC -- Quit the game.";
+
+    int menu_status = 1; // currently running menu = 1
+    while (menu_status)
+    {
+        menu_status = menu_events();
+
+        if (menu_status == 2)
+            gameloop();
+        else if (menu_status == 1);
+        else
+            break;
+
+        // draw menu
+        SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format,0,0,0));
+        // Text drawing
+        text(menustr, SCREEN_WIDTH/4, SCREEN_HEIGHT/2, screen);
+
+        // update screen
+        SDL_Flip(screen);
+
+        frame_time = SDL_GetTicks() - frame_start;
+        //sprintf(title_str, "Kyzoku - %d", frame_time);
+        //SDL_WM_SetCaption(title_str, NULL);
+        // wait the rest of the frame
+        if (frame_time < (1000/ FPS_LIMIT))
+            SDL_Delay(1000 / (FPS_LIMIT - frame_time));
+    }
+
 
     // Quit SDL and TTF
 	TTF_Quit();

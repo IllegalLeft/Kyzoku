@@ -13,7 +13,7 @@
 #define MAX_ENEMIES     20
 #define SHOT_WAIT       240
 
-// Dimensions
+// Hit-box Dimensions
 // Player
 #define PLAYER_WIDTH    33
 #define PLAYER_HEIGHT   29

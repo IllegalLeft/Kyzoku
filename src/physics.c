@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//#include "physics.h"
 #include "common.h"
 #include "graphics.h"
 

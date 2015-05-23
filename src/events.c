@@ -7,7 +7,7 @@
 #include "common.h"
 #include "physics.h"
 
-bool events()
+bool game_events()
 {
     SDL_Event event;
 
@@ -65,4 +65,43 @@ bool events()
     }
 
     return false;
+}
+
+int menu_events()
+{
+    int rcode = 1; // return 1 by default
+    // Return codes:
+    // 0  exit menu (and the program)
+    // 1  continue on menu
+    // 2  play game
+
+    SDL_Event event;
+
+    //Event stuff
+    while (SDL_PollEvent(&event))
+    {
+        switch(event.type)
+        {
+        case SDL_QUIT:
+            rcode = 0;
+            break;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym)
+            {
+            case SDLK_ESCAPE:
+                rcode = 0;
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+    // Check Key states
+    Uint8 *keystates = SDL_GetKeyState(NULL);
+
+    if (keystates[SDLK_c] || keystates[SDLK_j])
+        rcode = 2;
+
+    return rcode; // default is 'KEEP ON MENU-ING'
 }
