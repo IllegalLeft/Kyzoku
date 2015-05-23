@@ -9,8 +9,8 @@
 #include "screen.h"
 
 
-#define MAX_BULLETS     2
-#define MAX_ENEMIES     10
+#define MAX_BULLETS     20
+#define MAX_ENEMIES     20
 #define SHOT_WAIT       240
 
 // Dimensions
@@ -18,11 +18,11 @@
 #define PLAYER_WIDTH    32
 #define PLAYER_HEIGHT   24
 // Enemy
-#define ENEMY_WIDTH     32
-#define ENEMY_HEIGHT    16
+#define ENEMY_WIDTH     21
+#define ENEMY_HEIGHT    31
 // Bullet
-#define BULLET_WIDTH    5
-#define BULLET_HEIGHT   5
+#define BULLET_WIDTH    12
+#define BULLET_HEIGHT   4
 
 //Physics
 #define PLAYER_VEL_LIMIT 10
@@ -44,6 +44,7 @@ struct player_ship
     int last_shot;
 	int hp;
 	int score;
+    int subweapon;
 } player;
 
 // Enemy ship
@@ -58,6 +59,7 @@ struct enemy_ship
     int vel_y;
     bool active;
     int value;
+    int type;
 } enemy[MAX_ENEMIES];
 
 //basic bullet structure

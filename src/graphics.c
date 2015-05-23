@@ -2,6 +2,8 @@
     Graphics
 */
 
+#include <stdio.h>
+
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "SDL/SDL_ttf.h"
@@ -29,13 +31,14 @@ SDL_Surface* load_img(char* filename)
     if (img != NULL)
         return img;
 
-    return -1;
+    printf("Failed to load image %s\n\tError: %s\n", filename, IMG_GetError());
+    return 1;
 }
 
 SDL_Surface* init_screen()
 {
     // icon
-    SDL_Surface* icon = load_img("../gfx/icon.bmp");
+    SDL_Surface* icon = load_img("gfx/icon.png");
     SDL_WM_SetIcon(icon, NULL);
 
     // screen surface
@@ -83,7 +86,7 @@ void free_enemies()
 void text(char* message, int xcoord, int ycoord, SDL_Surface* screen)
 {
 	SDL_Color font_colour = {255, 255, 255}; // white
-	TTF_Font* font = TTF_OpenFont("ProggyClean.ttf", 16);
+	TTF_Font* font = TTF_OpenFont("src/ProggyClean.ttf", 16);
 
 	SDL_Surface* text = TTF_RenderText_Solid(font, message, font_colour);
 

@@ -13,7 +13,7 @@
 void limit_vel(int x, int y)
 {
     int vel_limit = 200; // Speed of player
-    
+
     // speed
     player.vel_x = x * 1;
     player.vel_y = y * 1;
@@ -56,8 +56,8 @@ bool get_collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h
     // NOTE: The 'top', 'bottom', etc are as you would think...
     //        top
     //      +------+
-    // left |      | right 
-    //      |      | 
+    // left |      | right
+    //      |      |
     //      +------+
     //       bottom
     //
@@ -144,7 +144,7 @@ bool check_collisions()
 }
 
 // Bullet Physics
-void init_bullets()
+int init_bullets()
 {
     int i;
     for (i = 0; i < MAX_BULLETS;i++)
@@ -159,11 +159,15 @@ void init_bullets()
         bullet[i].vel_y = 0;
         bullet[i].shot = false;
         // Image
-        bullet[i].image = load_img("../gfx/bullet.bmp");
+        bullet[i].image = load_img("gfx/bullet.png");
+        if (bullet[i].image == 1)
+            return 1;
         // Colour key
         Uint32 colorkey = SDL_MapRGB(bullet[i].image->format, 0, 0, 0);
         SDL_SetColorKey(bullet[i].image, SDL_SRCCOLORKEY, colorkey);
     }
+
+    return 0;
 }
 
 void player_shoot()
@@ -238,14 +242,14 @@ void init_enemies()
         enemy[i].vel_x = 0;
         enemy[i].vel_y = 0;
         // Image
-        enemy[i].image = load_img("../gfx/enemy.png");
+        enemy[i].image = load_img("gfx/enemy.png");
         // Color Key
         //Uint32 colorkey = SDL_MapRGB(enemy[i].image->format, 0, 0, 0);
         //SDL_SetColorKey(enemy[i].image, SDL_SRCCOLORKEY, colorkey);
     }
 }
 
-void enemy_spawn()
+void enemy_spawn(int type)
 {
     int i;
     for (i = 0; i < MAX_ENEMIES; i++)
@@ -261,6 +265,7 @@ void enemy_spawn()
             enemy[i].vel_x = -2;
             enemy[i].vel_y = 0;
             enemy[i].value = 10;
+            enemy[i].type = type;
 
             return; // Spawn one at a time
         }
@@ -275,9 +280,16 @@ void enemy_move()
     {
         if (enemy[i].active == true)
         {
-            // move enemies forward (to left)
-            enemy[i].x += enemy[i].vel_x;
-            enemy[i].y += enemy[i].vel_y;
+            if (enemy[i].type == 0)     // STRAIGHT <--
+            {
+                // move enemies forward (to left)
+                enemy[i].x += enemy[i].vel_x;
+                enemy[i].y += enemy[i].vel_y;
+            }
+            /*if (enemy[].type == 1)      // PARABOLA
+            {
+                enemy[i].x =
+            }*/
         }
         else
         {

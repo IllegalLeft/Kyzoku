@@ -35,8 +35,13 @@ int main(int argc, char* argv[])
     player.h = PLAYER_HEIGHT;
 	player.hp = 100; // For now, may need tweaking as we go
 	player.score = 0;
+    player.subweapon = 0; // Subweapon will be added later
 
-    init_bullets();
+    if (init_bullets())
+    {
+        printf("Bullets failed to initialize.\n");
+        return 1;
+    }
     init_enemies();
 
     int lastspawn = 0;
@@ -51,10 +56,20 @@ int main(int argc, char* argv[])
     char title_str[] = "Kyzoku - \0\0\0\0\0";
 
     // the images
-    player.image = load_img("../gfx/player.png");
-    //enemy.image = load_img("../gfx/enemy.png");
-    SDL_Surface* sector_img = load_img("../gfx/background.png");
+    player.image = load_img("gfx/player.png");
+    SDL_Surface* sector_img = load_img("gfx/background.png");
+    SDL_Surface* sector = SDL_CreateRGBSurface(SDL_SWSURFACE, 640, 640, SCREEN_BPP, 0, 0, 0, 0);    // background is made of many 'sector_img's
+    int i, j = 0;
+    for (i = 0; i < 10; i++)
+    {
+        for (j = 0; j < 8; j++)
+        {
+            apply_surface(i * 64, j * 64, sector_img, sector);
+        }
+    }
+
     // Bullet img loaded in init_bullets()
+    // enemy images loaded in init_enemies()
 
     bool quit = false;
 
@@ -64,7 +79,8 @@ int main(int argc, char* argv[])
 
     int frame_start, frame_time;
 
-	if (TTF_Init() == -1)
+    // Start TTF lib
+    if (TTF_Init() == -1)
 		return 1;
 
     // Redirect stdout and stderr streams to console (SDL sends to files by default)
@@ -120,7 +136,7 @@ int main(int argc, char* argv[])
         enemy_move();
         if (SDL_GetTicks() >= 500 + lastspawn)
         {
-            enemy_spawn();
+            enemy_spawn(0);
             lastspawn = SDL_GetTicks();
 
             // FPS in title
@@ -130,8 +146,8 @@ int main(int argc, char* argv[])
 
         /// Drawing
         // Apply image to screen
-        apply_surface(background.x, background.y, sector_img, screen);
-        apply_surface(background.x + SCREEN_WIDTH, background.y, sector_img, screen);
+        apply_surface(background.x, background.y, sector, screen);
+        apply_surface(background.x + SCREEN_WIDTH, background.y, sector, screen);
         apply_surface(player.x, player.y, player.image, screen);
         draw_enemies(screen);
         draw_bullets(screen);
