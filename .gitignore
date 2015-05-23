@@ -1,14 +1,20 @@
 #Ignore these file types
 
+# compiled files
+*.o
+kyzoku
+
+# Runtime files
+CON
+
 #Codeblocks files
 /obj/*
 /bin/*
 *.layout
 *.depend
+*.cpb
 
 #GCC files
-*.o
-*.cpb
+
+# Vim?
 *.swp
-CON
-kyzoku
