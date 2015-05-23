@@ -10,6 +10,7 @@
 #include <time.h>
 
 #include "common.h"
+#include "events.h"
 #include "graphics.h"
 #include "physics.h"
 

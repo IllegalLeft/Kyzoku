@@ -32,7 +32,7 @@ SDL_Surface* load_img(char* filename)
         return img;
 
     printf("Failed to load image %s\n\tError: %s\n", filename, IMG_GetError());
-    return 1;
+    return (SDL_Surface*)1;
 }
 
 SDL_Surface* init_screen()

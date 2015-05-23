@@ -160,7 +160,7 @@ int init_bullets()
         bullet[i].shot = false;
         // Image
         bullet[i].image = load_img("gfx/bullet.png");
-        if (bullet[i].image == 1)
+        if (bullet[i].image == (SDL_Surface*)1)
             return 1;
         // Colour key
         Uint32 colorkey = SDL_MapRGB(bullet[i].image->format, 0, 0, 0);
