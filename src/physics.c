@@ -142,8 +142,8 @@ int init_bullets()
     for (i = 0; i < MAX_BULLETS;i++)
     {
         // set bullet data
-        bullet[i].x = 0; //player.x;
-        bullet[i].y = 0; //player.y;
+        bullet[i].x = 0;
+        bullet[i].y = 0;
         bullet[i].w = BULLET_HEIGHT;
         bullet[i].h = BULLET_WIDTH;
         bullet[i].speed = 4;

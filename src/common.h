@@ -43,8 +43,9 @@ struct player_ship
     int vel_y;
     int last_shot;
 	int hp;
-	int score;
+	long score;
     int subweapon;
+    int ammo;
 } player;
 
 // Enemy ship
