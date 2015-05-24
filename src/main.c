@@ -50,7 +50,6 @@ int gameloop()
     background.x = 0;
     background.y = 0;
 
-
     // initialize entities
     if (init_bullets())
     {
@@ -62,13 +61,15 @@ int gameloop()
     // the images
     player.image = load_img("gfx/player.png");
     SDL_Surface* sector_img = load_img("gfx/background.png");
-    SDL_Surface* sector = SDL_CreateRGBSurface(SDL_SWSURFACE, 640, 640, SCREEN_BPP, 0, 0, 0, 0);    // background is made of many 'sector_img's
+    SDL_Surface* sector = SDL_CreateRGBSurface(SDL_SWSURFACE, 562, 562,
+                                               SCREEN_BPP, 0, 0, 0, 0);
+    // background is made of many 'sector_img's
     int i, j = 0;
     for (i = 0; i < 10; i++) // draw many bg tiles onto one surface
     {
         for (j = 0; j < 8; j++)
         {
-            apply_surface(i * 64, j * 64, sector_img, sector);
+            apply_surface(i * 64, (j*64) + SCREEN_BAR_HEIGHT, sector_img, sector);
         }
     }
     // Bullet img loaded in init_bullets()
@@ -142,8 +143,8 @@ int gameloop()
         // Text drawing
         sprintf(health_str, "Health: %d     %dx %dy", player.hp, player.x, player.y);
         sprintf(score_str, "Score: %d", player.score);
-        text(health_str, 15, 450, screen);
-        text(score_str, 215, 0, screen);
+        text(health_str, 15, SCREEN_HEIGHT - SCREEN_BAR_HEIGHT + 3, screen);
+        text(score_str, 215, 3, screen);
 
         // update screen
         SDL_Flip(screen);
@@ -152,7 +153,7 @@ int gameloop()
         //sprintf(title_str, "Kyzoku - %d", frame_time);
         //SDL_WM_SetCaption(title_str, NULL);
         // wait the rest of the frame
-        if (frame_time < (1000/ FPS_LIMIT))
+        if (frame_time < (1000 / FPS_LIMIT))
             SDL_Delay(1000 / (FPS_LIMIT - frame_time));
     }
 

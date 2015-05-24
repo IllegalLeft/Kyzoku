@@ -25,14 +25,14 @@ void limit_vel(int x, int y)
         player.vel_y = -VELOCITY_LIMIT;
 
     // prevent player from leaving the screen
-    if((player.x + player.vel_x) > (SCREEN_WIDTH - 30))
+    if((player.x + player.vel_x) > (SCREEN_WIDTH - PLAYER_WIDTH))
         player.vel_x = 0;
     if((player.x + player.vel_x) < 0)
         player.vel_x = 0;
 
-    if((player.y + player.vel_y) > (SCREEN_HEIGHT - 30))
+    if((player.y + player.vel_y) > (SCREEN_HEIGHT - SCREEN_BAR_HEIGHT - PLAYER_HEIGHT))
         player.vel_y = 0;
-    if((player.y + player.vel_y) < 0)
+    if((player.y + player.vel_y) < SCREEN_BAR_HEIGHT)
         player.vel_y = 0;
 }
 
