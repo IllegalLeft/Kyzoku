@@ -9,6 +9,7 @@
 #include "SDL/SDL_ttf.h"
 
 #include "common.h"
+#include "graphics.h"
 
 
 // General Drawing
@@ -85,8 +86,8 @@ void free_enemies()
 // Text Drawing
 void text(char* message, int xcoord, int ycoord, SDL_Surface* screen)
 {
-	SDL_Color font_colour = {255, 255, 255}; // white
-	TTF_Font* font = TTF_OpenFont("src/ProggyClean.ttf", 16);
+	SDL_Color font_colour = {255, 0, 0};
+	TTF_Font* font = TTF_OpenFont(FONT_FACE, FONT_SIZE);
 
 	SDL_Surface* text = TTF_RenderText_Solid(font, message, font_colour);
 

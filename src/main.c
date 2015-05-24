@@ -187,7 +187,8 @@ int main(int argc, char* argv[])
 
     SDL_Surface* screen = init_screen();
 
-    char* menustr = "J or C -- Start Game\nESC -- Quit the game.";
+    char* menustrA = "J / C -- Start Game";
+    char* menustrB = "  ESC -- Quit the game";
 
     int menu_status = 1; // currently running menu = 1
     while (menu_status)
@@ -206,7 +207,8 @@ int main(int argc, char* argv[])
         // draw menu
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format,0,0,0));
         // Text drawing
-        text(menustr, SCREEN_WIDTH/4, SCREEN_HEIGHT/2, screen);
+        text(menustrA, SCREEN_WIDTH/4, SCREEN_HEIGHT/2-20, screen);
+        text(menustrB, SCREEN_WIDTH/4, SCREEN_HEIGHT/2, screen);
 
         // update screen
         SDL_Flip(screen);

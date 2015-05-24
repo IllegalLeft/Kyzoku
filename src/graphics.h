@@ -4,6 +4,20 @@
     Sam Volk, 2013
 */
 
+// Dimensions
+// player
+#define PLAYER_IMG_WIDTH    33
+#define PLAYER_IMG_HEIGHT   29
+// Enemy
+#define ENEMY_IMG_WIDTH     21
+#define ENEMY_IMG_HEIGHT    31
+// Bullet
+#define BULLET_IMG_WIDTH    12
+#define BULLET_IMG_HEIGHT   3
+
+#define FONT_FACE   "src/Segment7.otf"
+#define FONT_SIZE   22
+
 // General Drawing
 void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination);
 SDL_Surface* load_img(char* filename);
