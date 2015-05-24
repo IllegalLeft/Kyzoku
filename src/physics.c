@@ -249,7 +249,7 @@ void enemy_spawn(int type)
         if (enemy[i].active == false)
         {
             // spawn enemy at random place on the right
-            enemy[i].y = rand() % (SCREEN_HEIGHT - player.h);
+            enemy[i].y = (rand() % (SCREEN_HEIGHT - 2*SCREEN_BAR_HEIGHT - ENEMY_HEIGHT)) + SCREEN_BAR_HEIGHT;
             enemy[i].x = SCREEN_WIDTH; // Offscreen
             enemy[i].w = ENEMY_WIDTH;
             enemy[i].h = ENEMY_HEIGHT;
