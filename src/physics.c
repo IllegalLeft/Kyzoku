@@ -7,29 +7,24 @@
 
 #include "common.h"
 #include "graphics.h"
+#include "physics.h"
 
 
 void limit_vel(int x, int y)
 {
-    int vel_limit = 200; // Speed of player
-
-    // speed
-    player.vel_x = x * 1;
-    player.vel_y = y * 1;
-
     // limit x velocity
-    if (player.vel_x > vel_limit)
-        player.vel_x = vel_limit;
-    if (player.vel_x < -vel_limit)
-        player.vel_x = -vel_limit;
+    if (player.vel_x > VELOCITY_LIMIT)
+        player.vel_x = VELOCITY_LIMIT;
+    if (player.vel_x < -VELOCITY_LIMIT)
+        player.vel_x = -VELOCITY_LIMIT;
 
     // limit y velocity
-    if (player.vel_y > vel_limit)
-        player.vel_y = vel_limit;
-    if (player.vel_y < -vel_limit)
-        player.vel_y = -vel_limit;
+    if (player.vel_y > VELOCITY_LIMIT)
+        player.vel_y = VELOCITY_LIMIT;
+    if (player.vel_y < -VELOCITY_LIMIT)
+        player.vel_y = -VELOCITY_LIMIT;
 
-    //
+    // prevent player from leaving the screen
     if((player.x + player.vel_x) > (SCREEN_WIDTH - 30))
         player.vel_x = 0;
     if((player.x + player.vel_x) < 0)
@@ -39,8 +34,6 @@ void limit_vel(int x, int y)
         player.vel_y = 0;
     if((player.y + player.vel_y) < 0)
         player.vel_y = 0;
-
-    //printf("vx:%d vy:%d\n",player.vel_x, player.vel_y);
 }
 
 void apply_velocity(struct player_ship* player)
@@ -243,8 +236,8 @@ void init_enemies()
         // Image
         enemy[i].image = load_img("gfx/enemy.png");
         // Color Key
-        //Uint32 colorkey = SDL_MapRGB(enemy[i].image->format, 0, 0, 0);
-        //SDL_SetColorKey(enemy[i].image, SDL_SRCCOLORKEY, colorkey);
+        Uint32 colorkey = SDL_MapRGB(enemy[i].image->format, 0, 0, 0);
+        SDL_SetColorKey(enemy[i].image, SDL_SRCCOLORKEY, colorkey);
     }
 }
 

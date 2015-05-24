@@ -36,24 +36,24 @@ bool game_events()
     if (keystates[SDLK_LSHIFT])
     {
         if (keystates[SDLK_UP] || keystates[SDLK_w])
-            player.vel_y = -1;
+            player.vel_y -= PLAYER_ACCEL / 2;
         if (keystates[SDLK_DOWN] || keystates[SDLK_s])
-            player.vel_y = 1;
+            player.vel_y += PLAYER_ACCEL / 2;
         if (keystates[SDLK_LEFT] || keystates[SDLK_a])
-            player.vel_x = -1;
+            player.vel_x -= PLAYER_ACCEL / 2;
         if (keystates[SDLK_RIGHT] || keystates[SDLK_d])
-            player.vel_x = 1;
+            player.vel_x += PLAYER_ACCEL / 2;
     }
     else
     {
         if (keystates[SDLK_UP] || keystates[SDLK_w])
-            player.vel_y = -2;
+            player.vel_y -= PLAYER_ACCEL;
         if (keystates[SDLK_DOWN] || keystates[SDLK_s])
-            player.vel_y = 2;
+            player.vel_y += PLAYER_ACCEL;
         if (keystates[SDLK_LEFT] || keystates[SDLK_a])
-            player.vel_x = -2;
+            player.vel_x -= PLAYER_ACCEL;
         if (keystates[SDLK_RIGHT] || keystates[SDLK_d])
-            player.vel_x = 2;
+            player.vel_x += PLAYER_ACCEL;
     }
 
     limit_vel(player.vel_x, player.vel_y);
