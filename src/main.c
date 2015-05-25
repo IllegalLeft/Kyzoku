@@ -142,9 +142,9 @@ int gameloop()
 
         // Text drawing
         sprintf(health_str, "Health: %d     %dx %dy", player.hp, player.x, player.y);
-        sprintf(score_str, "Score: %d", player.score);
+        sprintf(score_str, "Score: %ld", player.score);
         text(health_str, 15, SCREEN_HEIGHT - SCREEN_BAR_HEIGHT + 3, screen);
-        text(score_str, 215, 3, screen);
+        text(score_str, 20, 3, screen);
 
         // update screen
         SDL_Flip(screen);
@@ -208,8 +208,8 @@ int main(int argc, char* argv[])
         // draw menu
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format,0,0,0));
         // Text drawing
-        text(menustrA, SCREEN_WIDTH/4, SCREEN_HEIGHT/2-20, screen);
-        text(menustrB, SCREEN_WIDTH/4, SCREEN_HEIGHT/2, screen);
+        text(menustrA, SCREEN_WIDTH/6, SCREEN_HEIGHT/2-20, screen);
+        text(menustrB, SCREEN_WIDTH/6, SCREEN_HEIGHT/2, screen);
 
         // update screen
         SDL_Flip(screen);

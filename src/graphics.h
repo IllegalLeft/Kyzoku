@@ -15,8 +15,8 @@
 #define BULLET_IMG_WIDTH    12
 #define BULLET_IMG_HEIGHT   3
 
-#define FONT_FACE   "src/Segment7.otf"
-#define FONT_SIZE   22
+#define FONT_FACE   "src/PressStart2P.ttf"
+#define FONT_SIZE   20
 
 // General Drawing
 void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination);
