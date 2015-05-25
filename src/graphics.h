@@ -4,6 +4,8 @@
     Sam Volk, 2013
 */
 
+#define TITLE_REFRESH       1000 //ms
+
 // Dimensions
 // player
 #define PLAYER_IMG_WIDTH    33
@@ -15,6 +17,7 @@
 #define BULLET_IMG_WIDTH    12
 #define BULLET_IMG_HEIGHT   3
 
+// Font
 #define FONT_FACE   "src/PressStart2P.ttf"
 #define FONT_SIZE   20
 

@@ -28,7 +28,8 @@ int gameloop()
     int stopgame = false;
     int frame_start, frame_time;
 
-    int lastspawn = 0;
+    int lastspawn = 0; // last time enemy was spawned
+    int lasttitlerefresh = 0; // last time title was refreshed
 
     // Text data
     char score_str[] = "Score: \0\0\0\0\0\0\0\0\0\0";
@@ -122,14 +123,18 @@ int gameloop()
 
         // Enemies
         enemy_move();
-        if (SDL_GetTicks() >= 500 + lastspawn)
+        if (SDL_GetTicks() >= ENEMY_SPAWNTIME + lastspawn)
         {
             enemy_spawn(0);
             lastspawn = SDL_GetTicks();
-
+        }
+        // title refresh
+        if (SDL_GetTicks() >= TITLE_REFRESH + lasttitlerefresh)
+        {
             // FPS in title
             sprintf(title_str, "Kyzoku - %d", frame_time);
             SDL_WM_SetCaption(title_str, NULL);
+            lasttitlerefresh = SDL_GetTicks();
         }
 
         /// Drawing
@@ -215,8 +220,7 @@ int main(int argc, char* argv[])
         SDL_Flip(screen);
 
         frame_time = SDL_GetTicks() - frame_start;
-        //sprintf(title_str, "Kyzoku - %d", frame_time);
-        //SDL_WM_SetCaption(title_str, NULL);
+
         // wait the rest of the frame
         if (frame_time < (1000/ FPS_LIMIT))
             SDL_Delay(1000 / (FPS_LIMIT - frame_time));
