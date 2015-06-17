@@ -35,7 +35,8 @@ typedef enum { false, true } bool;
 // player
 struct player_ship
 {
-    SDL_Surface* image;
+    SDL_Surface* spritesheet;
+    int frame;
     int h;
     int w;
     int x;
@@ -43,20 +44,21 @@ struct player_ship
     int vel_x;
     int vel_y;
     int last_shot;
-	int hp;
-	long score;
+    int hp;
+    long score;
     int subweapon;
     int ammo;
+    bool booster;
 } player;
 
 // Enemy ship
 struct enemy_ship
 {
-	SDL_Surface* image;
+    SDL_Surface* image;
     int h;
     int w;
-	int x;
-	int y;
+    int x;
+    int y;
     int vel_x;
     int vel_y;
     bool active;

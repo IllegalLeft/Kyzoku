@@ -46,6 +46,7 @@ int gameloop()
 	player.hp = 100; // For now, may need tweaking as we go
 	player.score = 0;
     player.subweapon = 0; // Subweapon will be added later
+    player.booster = false;
 
     // set background data
     background.x = 0;
@@ -60,8 +61,17 @@ int gameloop()
     init_enemies();
 
     // the images
-    player.image = load_img("gfx/player.png");
-    SDL_Surface* sector_img = load_img("gfx/background.png");
+    player.spritesheet = load_img(PLAYER_SPRITESHEET);
+    player.frame = 0;
+
+    // clipping rectangle
+    SDL_Rect player_clipping;
+    player_clipping.x = 0;
+    player_clipping.y = 0;
+    player_clipping.w = PLAYER_IMG_WIDTH;
+    player_clipping.h = PLAYER_IMG_HEIGHT;
+
+    SDL_Surface* sector_img = load_img(BACKGROUND_IMAGE);
     SDL_Surface* sector = SDL_CreateRGBSurface(SDL_SWSURFACE, 562, 562,
                                                SCREEN_BPP, 0, 0, 0, 0);
     // background is made of many 'sector_img's
@@ -77,8 +87,8 @@ int gameloop()
     // enemy images loaded in init_enemies()
 
     // Colour keying
-    int colorkey = SDL_MapRGB(player.image->format,0,0,0);
-    SDL_SetColorKey(player.image, SDL_SRCCOLORKEY, colorkey);
+    int colorkey = SDL_MapRGB(player.spritesheet->format,0,0,0);
+    SDL_SetColorKey(player.spritesheet, SDL_SRCCOLORKEY, colorkey);
     // enemy colour key set in init_enemies
     // bullet colour key set in init_bullets
 
@@ -87,7 +97,7 @@ int gameloop()
     // if the game needs to be played it will jump in here
     while (stopgame == false)
     {
-        // Grab start of fram
+        // Grab start of frame
         frame_start = SDL_GetTicks();
 
         /// Events
@@ -138,10 +148,15 @@ int gameloop()
         }
 
         /// Drawing
+        // update frames
+        player_clipping.x = player.frame * PLAYER_IMG_WIDTH;
         // Apply image to screen
         apply_surface(background.x, background.y, sector, screen);
         apply_surface(background.x + SCREEN_WIDTH, background.y, sector, screen);
-        apply_surface(player.x, player.y, player.image, screen);
+        SDL_Rect offset;
+        offset.x = player.x;
+        offset.y = player.y;
+        SDL_BlitSurface(player.spritesheet, &player_clipping, screen, &offset);
         draw_enemies(screen);
         draw_bullets(screen);
 
@@ -165,7 +180,7 @@ int gameloop()
     // Free loaded images
     SDL_FreeSurface(sector_img);
     SDL_FreeSurface(sector);
-    SDL_FreeSurface(player.image);
+    SDL_FreeSurface(player.spritesheet);
     free_bullets();
     free_enemies();
 

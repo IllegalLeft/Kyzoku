@@ -6,9 +6,15 @@
 
 #define TITLE_REFRESH       1000 //ms
 
+// Images
+#define PLAYER_SPRITESHEET  "gfx/player.png"
+#define ENEMY_IMAGE         "gfx/enemy.png"
+#define BACKGROUND_IMAGE    "gfx/background.png"
+#define PLAYERBULLET_IMAGE  "gfx/bullet.png"
+
 // Dimensions
 // player
-#define PLAYER_IMG_WIDTH    33
+#define PLAYER_IMG_WIDTH    39
 #define PLAYER_IMG_HEIGHT   29
 // Enemy
 #define ENEMY_IMG_WIDTH     21
@@ -20,6 +26,7 @@
 // Font
 #define FONT_FACE   "src/PressStart2P.ttf"
 #define FONT_SIZE   20
+
 
 // General Drawing
 void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination);

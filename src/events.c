@@ -5,6 +5,7 @@
 #include "SDL/SDL.h"
 
 #include "common.h"
+#include "graphics.h"
 #include "physics.h"
 
 bool game_events()
@@ -33,6 +34,7 @@ bool game_events()
     // Check Key states
     Uint8 *keystates = SDL_GetKeyState(NULL);
 
+    // Movement
     if (keystates[SDLK_LSHIFT])
     {
         if (keystates[SDLK_UP] || keystates[SDLK_w])
@@ -55,9 +57,15 @@ bool game_events()
         if (keystates[SDLK_RIGHT] || keystates[SDLK_d])
             player.vel_x += PLAYER_ACCEL;
     }
+    // Booster frame?
+    if (keystates[SDLK_RIGHT] || keystates[SDLK_d])
+        player.frame = 1;
+    else
+        player.frame = 0;
 
     limit_vel(player.vel_x, player.vel_y);
 
+    // Shooting
     if ( ( (keystates[SDLK_j]) || keystates[SDLK_c]) && (SDL_GetTicks() > SHOT_WAIT + player.last_shot) )
     {
         player_shoot();
