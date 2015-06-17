@@ -19,5 +19,6 @@ void move_bullets();
 
 // Enemy Physics
 void init_enemies();
-void enemy_spawn(int type);
+void wave_spawn(int type, int formation, int amount);
+void enemy_spawn(int type, int x, int y);
 void enemy_move();

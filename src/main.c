@@ -129,7 +129,7 @@ int gameloop()
         enemy_move();
         if (SDL_GetTicks() >= ENEMY_SPAWNTIME + lastspawn)
         {
-            enemy_spawn(0);
+            wave_spawn(0, rand() % 4, 4);
             lastspawn = SDL_GetTicks();
         }
         // title refresh

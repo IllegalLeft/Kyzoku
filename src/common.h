@@ -11,7 +11,7 @@
 
 #define MAX_BULLETS     20
 #define MAX_ENEMIES     20
-#define ENEMY_SPAWNTIME 500 //ms
+#define ENEMY_SPAWNTIME 3000 //ms
 #define SHOT_WAIT       240 //ms
 
 // Hit-box Dimensions

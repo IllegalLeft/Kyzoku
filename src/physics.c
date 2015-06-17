@@ -238,7 +238,39 @@ void init_enemies()
     }
 }
 
-void enemy_spawn(int type)
+void wave_spawn(int type, int formation, int amount)
+{
+    int x = SCREEN_WIDTH;
+    int y = SCREEN_HEIGHT / 2;
+
+    int i;
+    for (i = 0; i < amount; i++)
+    {
+        switch(formation)
+        {
+            case 0:
+                x += 32;
+                break;
+            case 1:
+                y += 32;
+                break;
+            case 2:
+                y += 32;
+                x += 32;
+                break;
+            case 3:
+                y -= 32;
+                x += 32;
+            default:
+                x = x;
+                y = y;
+                break;
+        }
+        enemy_spawn(type, x, y);
+    }
+}
+
+void enemy_spawn(int type, int x, int y)
 {
     int i;
     for (i = 0; i < MAX_ENEMIES; i++)
@@ -246,15 +278,15 @@ void enemy_spawn(int type)
         if (enemy[i].active == false)
         {
             // spawn enemy at random place on the right
-            enemy[i].y = (rand() % (SCREEN_HEIGHT - 2*SCREEN_BAR_HEIGHT - ENEMY_HEIGHT)) + SCREEN_BAR_HEIGHT;
-            enemy[i].x = SCREEN_WIDTH; // Offscreen
+            enemy[i].y = y;
+            enemy[i].x = x;
             enemy[i].w = ENEMY_WIDTH;
             enemy[i].h = ENEMY_HEIGHT;
             enemy[i].active = true;
             enemy[i].vel_x = -2;
             enemy[i].vel_y = 0;
             enemy[i].value = 10;
-            enemy[i].type = rand() % 3;
+            enemy[i].type = type;
 
             return; // Spawn one at a time
         }
