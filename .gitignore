@@ -16,5 +16,6 @@ CON
 
 #GCC files
 
-# Vim?
+# Vim
 *.swp
+*.vim
