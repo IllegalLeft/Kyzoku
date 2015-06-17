@@ -7,6 +7,10 @@
 #define TITLE_REFRESH       1000 //ms
 
 // Images
+#define SPRITESHEET         "gfx/sprites.png"
+#define SPRITE_WIDTH        32
+#define SPRITE_HEIGHT       SPRITE_WIDTH
+
 #define PLAYER_SPRITESHEET  "gfx/player.png"
 #define ENEMY_IMAGE         "gfx/enemy.png"
 #define BACKGROUND_IMAGE    "gfx/background.png"
@@ -28,8 +32,12 @@
 #define FONT_SIZE   20
 
 
+SDL_Surface* spritesheet;
+
+
 // General Drawing
 void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination);
+void draw_sprite(int x, int y, int tile, SDL_Surface* destination);
 SDL_Surface* load_img(char* filename);
 SDL_Surface* init_screen();
 

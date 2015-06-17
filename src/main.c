@@ -14,6 +14,7 @@
 #include "graphics.h"
 #include "physics.h"
 
+
 // Background data
 struct background_data
 {
@@ -61,15 +62,8 @@ int gameloop()
     init_enemies();
 
     // the images
-    player.spritesheet = load_img(PLAYER_SPRITESHEET);
-    player.frame = 0;
-
-    // clipping rectangle
-    SDL_Rect player_clipping;
-    player_clipping.x = 0;
-    player_clipping.y = 0;
-    player_clipping.w = PLAYER_IMG_WIDTH;
-    player_clipping.h = PLAYER_IMG_HEIGHT;
+    spritesheet = load_img(SPRITESHEET);
+    player.tile = 0;
 
     SDL_Surface* sector_img = load_img(BACKGROUND_IMAGE);
     SDL_Surface* sector = SDL_CreateRGBSurface(SDL_SWSURFACE, 562, 562,
@@ -87,8 +81,8 @@ int gameloop()
     // enemy images loaded in init_enemies()
 
     // Colour keying
-    int colorkey = SDL_MapRGB(player.spritesheet->format,0,0,0);
-    SDL_SetColorKey(player.spritesheet, SDL_SRCCOLORKEY, colorkey);
+    int colorkey = SDL_MapRGB(spritesheet->format,0,0,0);
+    SDL_SetColorKey(spritesheet, SDL_SRCCOLORKEY, colorkey);
     // enemy colour key set in init_enemies
     // bullet colour key set in init_bullets
 
@@ -148,15 +142,10 @@ int gameloop()
         }
 
         /// Drawing
-        // update frames
-        player_clipping.x = player.frame * PLAYER_IMG_WIDTH;
         // Apply image to screen
         apply_surface(background.x, background.y, sector, screen);
         apply_surface(background.x + SCREEN_WIDTH, background.y, sector, screen);
-        SDL_Rect offset;
-        offset.x = player.x;
-        offset.y = player.y;
-        SDL_BlitSurface(player.spritesheet, &player_clipping, screen, &offset);
+        draw_sprite(player.x, player.y, player.tile, screen);
         draw_enemies(screen);
         draw_bullets(screen);
 
@@ -180,9 +169,9 @@ int gameloop()
     // Free loaded images
     SDL_FreeSurface(sector_img);
     SDL_FreeSurface(sector);
-    SDL_FreeSurface(player.spritesheet);
+    SDL_FreeSurface(spritesheet);
     free_bullets();
-    free_enemies();
+    //free_enemies();
 
     return 0;
 }

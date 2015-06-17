@@ -59,9 +59,9 @@ bool game_events()
     }
     // Booster frame?
     if (keystates[SDLK_RIGHT] || keystates[SDLK_d])
-        player.frame = 1;
+        player.tile = 1;
     else
-        player.frame = 0;
+        player.tile = 0;
 
     limit_vel(player.vel_x, player.vel_y);
 

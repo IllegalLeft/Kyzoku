@@ -25,6 +25,21 @@ void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination)
     SDL_BlitSurface(source, NULL, destination, &offset);
 }
 
+void draw_sprite(int x, int y, int tile, SDL_Surface* destination)
+{
+    SDL_Rect offset;
+    offset.x = x;
+    offset.y = y;
+
+    SDL_Rect sprite;
+    sprite.w = SPRITE_WIDTH;
+    sprite.h = SPRITE_HEIGHT;
+    sprite.x = tile % 10 * SPRITE_WIDTH;
+    sprite.y = tile / 10 * SPRITE_HEIGHT;
+
+    SDL_BlitSurface(spritesheet, &sprite, destination, &offset);
+}
+
 SDL_Surface* load_img(char* filename)
 {
     //SDL_Surface* img = SDL_LoadBMP(filename);
@@ -72,14 +87,15 @@ void draw_enemies(SDL_Surface* screen)
 {
     int i;
     for (i = 0; i < MAX_ENEMIES; i++)
-        apply_surface(enemy[i].x, enemy[i].y, enemy[i].image, screen);
+        draw_sprite(enemy[i].x, enemy[i].y, enemy[i].tile, screen);
 }
 
 void free_enemies()
 {
     int i;
     for (i = 0; i < MAX_ENEMIES; i++)
-        SDL_FreeSurface(enemy[i].image);
+        //SDL_FreeSurface(enemy[i].tile);
+        1+1;
 }
 
 

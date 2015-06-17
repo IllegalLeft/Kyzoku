@@ -234,10 +234,7 @@ void init_enemies()
         enemy[i].vel_x = 0;
         enemy[i].vel_y = 0;
         // Image
-        enemy[i].image = load_img("gfx/enemy.png");
-        // Color Key
-        Uint32 colorkey = SDL_MapRGB(enemy[i].image->format, 0, 0, 0);
-        SDL_SetColorKey(enemy[i].image, SDL_SRCCOLORKEY, colorkey);
+        enemy[i].tile = 2;
     }
 }
 
