@@ -254,7 +254,7 @@ void enemy_spawn(int type)
             enemy[i].vel_x = -2;
             enemy[i].vel_y = 0;
             enemy[i].value = 10;
-            enemy[i].type = type;
+            enemy[i].type = rand() % 3;
 
             return; // Spawn one at a time
         }
@@ -275,10 +275,16 @@ void enemy_move()
                 enemy[i].x += enemy[i].vel_x;
                 enemy[i].y += enemy[i].vel_y;
             }
-            /*if (enemy[].type == 1)      // PARABOLA
+            if (enemy[i].type == 1)      // odd
             {
-                enemy[i].x =
-            }*/
+                enemy[i].x += enemy[i].vel_x;
+                enemy[i].y += 1;
+            }
+            else if (enemy[i].type == 2)
+            {
+                enemy[i].x += enemy[i].vel_x;
+                enemy[i].y -= 1;
+            }
         }
         else
         {
