@@ -9,7 +9,7 @@ CFLAGS 	= -g -Wall
 default: $(TARGET)
 all: default
 
- 
+
 CFILES = $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 OBJECTS = $(patsubst %.c, %.o, $(wildcard $(SOURCES)*.c))
 
