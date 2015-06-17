@@ -90,14 +90,6 @@ void draw_enemies(SDL_Surface* screen)
         draw_sprite(enemy[i].x, enemy[i].y, enemy[i].tile, screen);
 }
 
-void free_enemies()
-{
-    int i;
-    for (i = 0; i < MAX_ENEMIES; i++)
-        //SDL_FreeSurface(enemy[i].tile);
-        1+1;
-}
-
 
 // Text Drawing
 void text(char* message, int xcoord, int ycoord, SDL_Surface* screen)

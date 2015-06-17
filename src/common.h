@@ -35,7 +35,7 @@ typedef enum { false, true } bool;
 // player
 struct player_ship
 {
-    int tile;
+    short tile;
     int h;
     int w;
     int x;
@@ -47,13 +47,12 @@ struct player_ship
     long score;
     int subweapon;
     int ammo;
-    bool booster;
 } player;
 
 // Enemy ship
 struct enemy_ship
 {
-    int tile;
+    short tile;
     int h;
     int w;
     int x;

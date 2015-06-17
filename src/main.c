@@ -47,7 +47,6 @@ int gameloop()
 	player.hp = 100; // For now, may need tweaking as we go
 	player.score = 0;
     player.subweapon = 0; // Subweapon will be added later
-    player.booster = false;
 
     // set background data
     background.x = 0;

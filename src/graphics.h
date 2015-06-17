@@ -11,18 +11,10 @@
 #define SPRITE_WIDTH        32
 #define SPRITE_HEIGHT       SPRITE_WIDTH
 
-#define PLAYER_SPRITESHEET  "gfx/player.png"
-#define ENEMY_IMAGE         "gfx/enemy.png"
 #define BACKGROUND_IMAGE    "gfx/background.png"
 #define PLAYERBULLET_IMAGE  "gfx/bullet.png"
 
 // Dimensions
-// player
-#define PLAYER_IMG_WIDTH    39
-#define PLAYER_IMG_HEIGHT   29
-// Enemy
-#define ENEMY_IMG_WIDTH     21
-#define ENEMY_IMG_HEIGHT    31
 // Bullet
 #define BULLET_IMG_WIDTH    12
 #define BULLET_IMG_HEIGHT   3
@@ -47,7 +39,6 @@ void free_bullets();
 
 // Enemy Drawing
 void draw_enemies(SDL_Surface* screen);
-void free_enemies();
 
 // Text Drawing
 void text(char* message, int xcoord, int ycoord, SDL_Surface* screen);
