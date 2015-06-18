@@ -283,7 +283,7 @@ void enemy_spawn(int type, int x, int y)
             enemy[i].w = ENEMY_WIDTH;
             enemy[i].h = ENEMY_HEIGHT;
             enemy[i].active = true;
-            enemy[i].vel_x = -2;
+            enemy[i].vel_x = -3;
             enemy[i].vel_y = 0;
             enemy[i].value = 10;
             enemy[i].type = type;
