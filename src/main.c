@@ -61,17 +61,17 @@ int gameloop()
     init_enemies();
 
     // the images
-    spritesheet = load_img(SPRITESHEET);
-    player.tile = 0;
+    player.tile = 1;
 
     SDL_Surface* sector_img = load_img(BACKGROUND_IMAGE);
-    SDL_Surface* sector = SDL_CreateRGBSurface(SDL_SWSURFACE, 562, 562,
-                                               SCREEN_BPP, 0, 0, 0, 0);
+    SDL_Surface* sector = SDL_CreateRGBSurface(SDL_SWSURFACE, SCREEN_WIDTH,
+                                               SCREEN_HEIGHT, SCREEN_BPP, 0, 0,
+                                               0, 0);
     // background is made of many 'sector_img's
     int i, j = 0;
     for (i = 0; i < 10; i++) // draw many bg tiles onto one surface
     {
-        for (j = 0; j < 8; j++)
+        for (j = 0; j < 9; j++)
         {
             apply_surface(i * 64, (j*64) + SCREEN_BAR_HEIGHT, sector_img, sector);
         }
@@ -168,7 +168,6 @@ int gameloop()
     // Free loaded images
     SDL_FreeSurface(sector_img);
     SDL_FreeSurface(sector);
-    SDL_FreeSurface(spritesheet);
     free_bullets();
     //free_enemies();
 
@@ -196,8 +195,37 @@ int main(int argc, char* argv[])
 
     SDL_Surface* screen = init_screen();
 
-    char* menustrA = "J / C -- Start Game";
-    char* menustrB = "  ESC -- Quit the game";
+    // Screen stuff
+    // text
+    char* menustrA = "Start";
+    char* menustrB = "Quit";
+    int menu_array[20][20] =
+    {
+        {10,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,11},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,20,21,21,21,21,21,21,22,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,20,21,21,21,21,21,21,22,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15},
+        {13,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,12},
+    };
+
+    // images
+    SDL_Surface* title = load_img("gfx/title.png");
+    spritesheet = load_img(SPRITESHEET);
 
     int menu_status = 1; // currently running menu = 1
     while (menu_status)
@@ -215,9 +243,11 @@ int main(int argc, char* argv[])
 
         // draw menu
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format,0,0,0));
+        draw_menubg(screen, menu_array);
+        apply_surface(SCREEN_WIDTH/2 - 232/2, 100, title, screen);
         // Text drawing
-        text(menustrA, SCREEN_WIDTH/6, SCREEN_HEIGHT/2-20, screen);
-        text(menustrB, SCREEN_WIDTH/6, SCREEN_HEIGHT/2, screen);
+        text(menustrA, SCREEN_WIDTH/2-50,  9*SPRITE_HEIGHT+6, screen);
+        text(menustrB, SCREEN_WIDTH/2-39, 11*SPRITE_HEIGHT+6, screen);
 
         // update screen
         SDL_Flip(screen);
@@ -229,6 +259,8 @@ int main(int argc, char* argv[])
             SDL_Delay(1000 / (FPS_LIMIT - frame_time));
     }
 
+    SDL_FreeSurface(title);
+    SDL_FreeSurface(spritesheet);
 
     // Quit SDL and TTF
 	TTF_Quit();

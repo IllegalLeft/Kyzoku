@@ -234,7 +234,7 @@ void init_enemies()
         enemy[i].vel_x = 0;
         enemy[i].vel_y = 0;
         // Image
-        enemy[i].tile = 2;
+        enemy[i].tile = 3;
     }
 }
 

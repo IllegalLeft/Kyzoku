@@ -59,9 +59,9 @@ bool game_events()
     }
     // Booster frame?
     if (keystates[SDLK_RIGHT] || keystates[SDLK_d])
-        player.tile = 1;
+        player.tile = 2;
     else
-        player.tile = 0;
+        player.tile = 1;
 
     limit_vel(player.vel_x, player.vel_y);
 
@@ -93,6 +93,8 @@ int menu_events()
         case SDL_QUIT:
             rcode = 0;
             break;
+
+        // KEY EVENTS
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
@@ -100,8 +102,16 @@ int menu_events()
                 rcode = 0;
                 break;
             default:
-                break;
+                rcode = 1;
             }
+            break;
+        // MOUSE DOWN EVENTS
+        case SDL_MOUSEBUTTONDOWN:
+            if (event.button.y < SCREEN_HEIGHT/2)
+                rcode = 2;
+            if (event.button.y > SCREEN_HEIGHT/2)
+                rcode = 0;
+            break;
         }
     }
 

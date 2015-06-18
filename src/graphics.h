@@ -33,6 +33,8 @@ void draw_sprite(int x, int y, int tile, SDL_Surface* destination);
 SDL_Surface* load_img(char* filename);
 SDL_Surface* init_screen();
 
+void draw_menubg(SDL_Surface* screen, int array[20][20]);
+
 // Bullet Drawing
 void draw_bullets(SDL_Surface* screen);
 void free_bullets();

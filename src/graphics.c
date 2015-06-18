@@ -64,6 +64,17 @@ SDL_Surface* init_screen()
     return screen;
 }
 
+// Menu BG
+void draw_menubg(SDL_Surface* screen, int array[20][20])
+{
+    int i, j;
+    for(i = 0; i < 20; i++)
+    {
+        for(j = 0; j < 20; j++)
+            draw_sprite(j*SPRITE_WIDTH, i*SPRITE_HEIGHT, array[i][j], screen);
+    }
+}
+
 // Bullet Drawing
 void draw_bullets(SDL_Surface* screen)
 {
@@ -94,7 +105,7 @@ void draw_enemies(SDL_Surface* screen)
 // Text Drawing
 void text(char* message, int xcoord, int ycoord, SDL_Surface* screen)
 {
-	SDL_Color font_colour = {255, 0, 0};
+	SDL_Color font_colour = {200, 200, 200};
 	TTF_Font* font = TTF_OpenFont(FONT_FACE, FONT_SIZE);
 
 	SDL_Surface* text = TTF_RenderText_Solid(font, message, font_colour);
