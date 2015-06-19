@@ -37,6 +37,8 @@ int gameloop()
     char health_str[] = "Health: \0\0\0";
     char title_str[] = "Kyzoku - \0\0\0\0\0";
 
+    int i, j;
+
     // set player data
     player.x = (SCREEN_WIDTH - 32) / 2;
     player.y = (SCREEN_HEIGHT - 32) / 2;
@@ -68,7 +70,6 @@ int gameloop()
                                                SCREEN_HEIGHT, SCREEN_BPP, 0, 0,
                                                0, 0);
     // background is made of many 'sector_img's
-    int i, j = 0;
     for (i = 0; i < 10; i++) // draw many bg tiles onto one surface
     {
         for (j = 0; j < 9; j++)
@@ -141,9 +142,21 @@ int gameloop()
         }
 
         /// Drawing
-        // Apply image to screen
+        // background
         apply_surface(background.x, background.y, sector, screen);
         apply_surface(background.x + SCREEN_WIDTH, background.y, sector, screen);
+
+        // top and bottom bar
+        draw_sprite(0, 0, 20, screen);
+        draw_sprite(SPRITE_WIDTH*19, 0, 22, screen);
+        draw_sprite(0, SPRITE_HEIGHT*19, 20, screen);
+        draw_sprite(SPRITE_WIDTH*19, SPRITE_HEIGHT*19, 22, screen);
+        for (i = 1; i < (SCREEN_WIDTH/SPRITE_WIDTH) - 1; i++)
+        {
+            draw_sprite(i * 32, 0, 21, screen);
+            draw_sprite(i * 32, SPRITE_HEIGHT*19, 21, screen);
+        }
+
         draw_sprite(player.x, player.y, player.tile, screen);
         draw_enemies(screen);
         draw_bullets(screen);
@@ -151,8 +164,8 @@ int gameloop()
         // Text drawing
         sprintf(health_str, "Health: %d     %dx %dy", player.hp, player.x, player.y);
         sprintf(score_str, "Score: %ld", player.score);
-        text(health_str, 15, SCREEN_HEIGHT - SCREEN_BAR_HEIGHT + 3, screen);
-        text(score_str, 20, 3, screen);
+        text(health_str, 40, SCREEN_HEIGHT - SCREEN_BAR_HEIGHT + 7, screen);
+        text(score_str, 40, 7, screen);
 
         // update screen
         SDL_Flip(screen);
