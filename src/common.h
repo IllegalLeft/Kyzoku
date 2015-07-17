@@ -4,6 +4,7 @@
     - common typdefs, code, defines, etc.
 */
 
+#include <stdbool.h>
 #include <SDL/SDL.h>
 
 #include "screen.h"
@@ -28,9 +29,6 @@
 //Physics
 #define PLAYER_VEL_LIMIT 10
 
-
-// bool type
-typedef enum { false, true } bool;
 
 // player
 struct player_ship
