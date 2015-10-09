@@ -162,7 +162,7 @@ int gameloop()
         draw_bullets(screen);
 
         // Text drawing
-        sprintf(health_str, "Health: %d     %dx %dy", player.hp, player.x, player.y);
+        sprintf(health_str, "Health: %d", player.hp);
         sprintf(score_str, "Score: %ld", player.score);
         text(health_str, 40, SCREEN_HEIGHT - SCREEN_BAR_HEIGHT + 7, screen);
         text(score_str, 40, 7, screen);

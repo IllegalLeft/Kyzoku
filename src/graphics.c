@@ -105,7 +105,7 @@ void draw_enemies(SDL_Surface* screen)
 // Text Drawing
 void text(char* message, int xcoord, int ycoord, SDL_Surface* screen)
 {
-	SDL_Color font_colour = {200, 200, 200};
+	SDL_Color font_colour = {25, 25, 25};
 	TTF_Font* font = TTF_OpenFont(FONT_FACE, FONT_SIZE);
 
 	SDL_Surface* text = TTF_RenderText_Solid(font, message, font_colour);
