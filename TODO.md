@@ -1,7 +1,6 @@
 TO-DO
 =====
 
-* gameover
 * high-scores
 * enemies follow paths or something
 * different enemies

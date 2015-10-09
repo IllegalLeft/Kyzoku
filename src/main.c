@@ -184,6 +184,15 @@ int gameloop()
     free_bullets();
     //free_enemies();
 
+    // Gameover
+    SDL_Surface* gameover = load_img("gfx/gameover.png");
+    //blank screen
+    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format,0,0,0));
+    //draw gameover image
+    apply_surface((SCREEN_WIDTH - 328)/2, (SCREEN_HEIGHT - 40)/2, gameover, screen);
+    SDL_Flip(screen);
+    SDL_Delay(1000);
+
     return 0;
 }
 
@@ -243,7 +252,7 @@ int main(int argc, char* argv[])
     int menu_status = 1; // currently running menu = 1
     while (menu_status)
     {
-        // Grab start of fram
+        // Grab start of frame
         frame_start = SDL_GetTicks();
 
         menu_status = menu_events();
