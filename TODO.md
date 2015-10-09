@@ -1,6 +1,12 @@
 TO-DO
 =====
 
- * enemies follow paths
- * pickups
- * subweapons from pickups
+* gameover
+* high-scores
+* enemies follow paths or something
+* different enemies
+ * boss
+* transparency/opacity
+* pickups
+  * health
+* subweapons from pickups
