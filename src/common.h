@@ -26,9 +26,6 @@
 #define BULLET_WIDTH    12
 #define BULLET_HEIGHT   3
 
-//Physics
-#define PLAYER_VEL_LIMIT 10
-
 
 // player
 struct player_ship
