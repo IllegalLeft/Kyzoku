@@ -4,6 +4,7 @@
 
 #include "SDL/SDL.h"
 #include "SDL/SDL_ttf.h"
+#include "SDL/SDL_mixer.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -211,6 +212,10 @@ int main(int argc, char* argv[])
     if (TTF_Init() == -1)
 		return 1;
 
+    // Start sound
+    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 1, 4096) == -1)
+        return 1;
+
     // Redirect stdout and stderr streams to console (SDL sends to files by default)
     freopen("CON", "w", stdout); // redirects stdout
     freopen("CON", "w", stderr); // redirects stderr
@@ -249,7 +254,12 @@ int main(int argc, char* argv[])
     SDL_Surface* title = load_img("gfx/title.png");
     spritesheet = load_img(SPRITESHEET);
 
+    // sounds
+    Mix_Chunk *explosion = Mix_LoadWAV("snd/explosion.wav");
+    Mix_Chunk *whistle = Mix_LoadWAV("snd/whistle.wav");
+
     int menu_status = 1; // currently running menu = 1
+    Mix_PlayChannel(-1, explosion, 0);
     while (menu_status)
     {
         // Grab start of frame
@@ -257,8 +267,11 @@ int main(int argc, char* argv[])
 
         menu_status = menu_events();
 
-        if (menu_status == 2)
+        if (menu_status == 2) // play
+        {
+            Mix_PlayChannel(-1, whistle, 0);
             gameloop();
+        }
         else if (menu_status == 1);
         else
             break;
@@ -284,8 +297,9 @@ int main(int argc, char* argv[])
     SDL_FreeSurface(title);
     SDL_FreeSurface(spritesheet);
 
-    // Quit SDL and TTF
+    // Quit SDL
 	TTF_Quit();
+    Mix_CloseAudio();
     SDL_Quit();
 
     return 0;

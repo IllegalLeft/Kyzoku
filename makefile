@@ -1,6 +1,6 @@
 TARGET 	= kyzoku
 SOURCES = src/
-LIBS 	= -lm -lSDLmain -lSDL  -lSDL_image -lSDL_ttf
+LIBS 	= -lm -lSDLmain -lSDL  -lSDL_image -lSDL_mixer -lSDL_ttf
 CC 		= gcc
 CFLAGS 	= -g -Wall
 
