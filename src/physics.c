@@ -5,9 +5,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "SDL/SDL_mixer.h"
+
 #include "common.h"
 #include "graphics.h"
 #include "physics.h"
+#include "sound.h"
 
 
 void limit_vel(int x, int y)
@@ -97,6 +100,7 @@ bool check_collisions()
 
             if(collision == true)
 			{
+                Mix_PlayChannel(-1, snd_hit, 0);
 				player.hp -= 10;
 				if (player.hp <= 0)
                     return true; // True, the player is dead!
@@ -124,6 +128,7 @@ bool check_collisions()
                     if (collision == true)
                     {
                         // B O O M ! (collision happens)
+                        Mix_PlayChannel(-1, snd_hit, 0);
                         player.score += enemy[j].value;
                         bullet[i].shot = false;
                         enemy[j].active = false;

@@ -2,18 +2,19 @@
     Main
 */
 
-#include "SDL/SDL.h"
-#include "SDL/SDL_ttf.h"
-#include "SDL/SDL_mixer.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+
+#include "SDL/SDL.h"
+#include "SDL/SDL_ttf.h"
+#include "SDL/SDL_mixer.h"
 
 #include "common.h"
 #include "events.h"
 #include "graphics.h"
 #include "physics.h"
+#include "sound.h"
 
 
 // Background data
@@ -255,11 +256,11 @@ int main(int argc, char* argv[])
     spritesheet = load_img(SPRITESHEET);
 
     // sounds
-    Mix_Chunk *explosion = Mix_LoadWAV("snd/explosion.wav");
-    Mix_Chunk *whistle = Mix_LoadWAV("snd/whistle.wav");
+    snd_hit = Mix_LoadWAV(SND_HIT);
+    snd_shoot = Mix_LoadWAV(SND_SHOOT);
 
     int menu_status = 1; // currently running menu = 1
-    Mix_PlayChannel(-1, explosion, 0);
+    Mix_PlayChannel(-1, snd_hit, 0);
     while (menu_status)
     {
         // Grab start of frame
@@ -269,7 +270,7 @@ int main(int argc, char* argv[])
 
         if (menu_status == 2) // play
         {
-            Mix_PlayChannel(-1, whistle, 0);
+            Mix_PlayChannel(-1, snd_shoot, 0);
             gameloop();
         }
         else if (menu_status == 1);

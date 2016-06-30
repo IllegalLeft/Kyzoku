@@ -3,10 +3,12 @@
 */
 
 #include "SDL/SDL.h"
+#include "SDL/SDL_mixer.h"
 
 #include "common.h"
 #include "graphics.h"
 #include "physics.h"
+#include "sound.h"
 
 bool game_events()
 {
@@ -70,6 +72,7 @@ bool game_events()
     {
         player_shoot();
         player.last_shot = SDL_GetTicks();
+        Mix_PlayChannel(-1, snd_shoot, 0);
     }
 
     return false;
