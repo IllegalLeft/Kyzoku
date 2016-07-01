@@ -19,6 +19,10 @@
 #define BULLET_IMG_WIDTH    12
 #define BULLET_IMG_HEIGHT   3
 
+// Enemy tile lookup
+#define FASTGUY_TILE        4
+#define REGDUDE_TILE        3
+
 // Font
 #define FONT_FACE   "src/PressStart2P.ttf"
 #define FONT_SIZE   20

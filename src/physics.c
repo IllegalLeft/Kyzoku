@@ -230,7 +230,6 @@ void init_enemies()
 
     for(i = 0; i < MAX_ENEMIES; i++)
     {
-        // Data
         enemy[i].h = 0;
         enemy[i].w = 0;
         enemy[i].x = 0;
@@ -238,34 +237,43 @@ void init_enemies()
         enemy[i].active = false;
         enemy[i].vel_x = 0;
         enemy[i].vel_y = 0;
-        // Image
-        enemy[i].tile = 3;
+        enemy[i].tile = 0;
     }
 }
 
-void wave_spawn(int type, int formation, int amount)
+void wave_spawn(int type, int amount)
 {
-    int x = SCREEN_WIDTH;
-    int y = SCREEN_HEIGHT / 2;
+    int x, y;
+    // spawn start
+    switch (type)
+    {
+        case 0: // regular
+            x = SCREEN_WIDTH;
+            y = SCREEN_HEIGHT / 2;
+            break;
+        case 1: // fast
+            x = SCREEN_WIDTH;
+            y = SCREEN_HEIGHT / 4;
+            break;
+        default:
+            x = SCREEN_WIDTH;
+            y = SCREEN_HEIGHT / 2;
+
+    }
 
     int i;
     for (i = 0; i < amount; i++)
     {
-        switch(formation)
+        // formation is based on type
+        switch(type)
         {
             case 0:
                 x += 32;
                 break;
             case 1:
-                y += 32;
+                y += 64;
+                x += 16;
                 break;
-            case 2:
-                y += 32;
-                x += 32;
-                break;
-            case 3:
-                y -= 32;
-                x += 32;
             default:
                 x = x;
                 y = y;
@@ -293,6 +301,20 @@ void enemy_spawn(int type, int x, int y)
             enemy[i].value = 10;
             enemy[i].type = type;
 
+            // type dependant values
+            switch (type)
+            {
+                case 0: // regular dude
+                    enemy[i].tile = REGDUDE_TILE;
+                    break;
+                case 1: // fast dude
+                    enemy[i].vel_x = -6;
+                    enemy[i].tile = FASTGUY_TILE;
+                    break;
+                default:
+                    break;
+            }
+
             return; // Spawn one at a time
         }
     }
@@ -306,22 +328,9 @@ void enemy_move()
     {
         if (enemy[i].active == true)
         {
-            if (enemy[i].type == 0)     // STRAIGHT <--
-            {
-                // move enemies forward (to left)
-                enemy[i].x += enemy[i].vel_x;
-                enemy[i].y += enemy[i].vel_y;
-            }
-            if (enemy[i].type == 1)      // odd
-            {
-                enemy[i].x += enemy[i].vel_x;
-                enemy[i].y += 1;
-            }
-            else if (enemy[i].type == 2)
-            {
-                enemy[i].x += enemy[i].vel_x;
-                enemy[i].y -= 1;
-            }
+            // move enemies forward (to left)
+            enemy[i].x += enemy[i].vel_x;
+            enemy[i].y += enemy[i].vel_y;
         }
         else
         {

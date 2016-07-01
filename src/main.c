@@ -131,7 +131,7 @@ int gameloop()
         enemy_move();
         if (SDL_GetTicks() >= ENEMY_SPAWNTIME + lastspawn)
         {
-            wave_spawn(0, rand() % 4, 4);
+            wave_spawn(rand() % 2, 4);
             lastspawn = SDL_GetTicks();
         }
         // title refresh
@@ -148,6 +148,10 @@ int gameloop()
         apply_surface(background.x, background.y, sector, screen);
         apply_surface(background.x + SCREEN_WIDTH, background.y, sector, screen);
 
+        draw_sprite(player.x, player.y, player.tile, screen);
+        draw_enemies(screen);
+        draw_bullets(screen);
+
         // top and bottom bar
         draw_sprite(0, 0, 20, screen);
         draw_sprite(SPRITE_WIDTH*19, 0, 22, screen);
@@ -158,10 +162,6 @@ int gameloop()
             draw_sprite(i * 32, 0, 21, screen);
             draw_sprite(i * 32, SPRITE_HEIGHT*19, 21, screen);
         }
-
-        draw_sprite(player.x, player.y, player.tile, screen);
-        draw_enemies(screen);
-        draw_bullets(screen);
 
         // Text drawing
         sprintf(health_str, "Health: %d", player.hp);
