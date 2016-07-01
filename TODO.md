@@ -1,8 +1,10 @@
 TO-DO
 =====
 
+Gameplay
+========
 * enemies follow paths or something
-* high-scores
+* enemies shoot back
 * different enemies
  * boss
  * splitting enemies
@@ -14,7 +16,15 @@ TO-DO
   * health
   * subweapons
 * subweapons from pickups
-* 2xbackgrounds (closer stars move faster)
-* Menu
+
+Looks
+=====
+* 2x backgrounds (closer stars move faster)
+* explosions
+
+Other
+=====
+* high-scores
+* menu
   * controls/help
   * options
