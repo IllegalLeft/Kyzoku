@@ -35,8 +35,8 @@ int gameloop()
     int lasttitlerefresh = 0; // last time title was refreshed
 
     // Text data
-    char score_str[] = "Score: \0\0\0\0\0\0\0\0\0\0";
-    char health_str[] = "Health: \0\0\0";
+    char top_str[30];
+    char bottom_str[30];
     char title_str[] = "Kyzoku - \0\0\0\0\0";
 
     int i, j;
@@ -51,6 +51,7 @@ int gameloop()
 	player.hp = 100; // For now, may need tweaking as we go
 	player.score = 0;
     player.subweapon = 1; 
+    player.ammo = 100;
 
     // set background data
     background.x = 0;
@@ -164,10 +165,10 @@ int gameloop()
         }
 
         // Text drawing
-        sprintf(health_str, "Health: %d", player.hp);
-        sprintf(score_str, "Score: %ld", player.score);
-        text(health_str, 40, SCREEN_HEIGHT - SCREEN_BAR_HEIGHT + 7, screen);
-        text(score_str, 40, 7, screen);
+        sprintf(bottom_str, "Health: %d   Ammo: %d", player.hp, player.ammo);
+        sprintf(top_str, "Score: %ld", player.score);
+        text(bottom_str, 40, SCREEN_HEIGHT - SCREEN_BAR_HEIGHT + 7, screen);
+        text(top_str, 40, 7, screen);
 
         // update screen
         SDL_Flip(screen);

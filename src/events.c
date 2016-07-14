@@ -75,9 +75,10 @@ bool game_events()
         Mix_PlayChannel(-1, snd_shoot, 0);
     }
     // sub weapon
-    else if ((keystates[SDLK_k] || keystates[SDLK_x]) && (SDL_GetTicks() > SHOT_WAIT + player.last_shot))
+    else if ((keystates[SDLK_k] || keystates[SDLK_x]) && (SDL_GetTicks() > SHOT_WAIT + player.last_shot) && (player.ammo>0))
     {
         player_shootsub();
+        player.ammo -= 1;
         player.last_shot = SDL_GetTicks();
         Mix_PlayChannel(-1, snd_shoot, 0);
     }
