@@ -183,7 +183,52 @@ void player_shoot()
     }
 
     if (!(next < 0) )
+    {
+        // FIRE
         bullet[next].shot = true;
+        bullet[next].vel_x = 3;
+        bullet[next].vel_y = 0;
+    }
+}
+
+void player_shootsub()
+{
+    int next = -1;
+    int freebullets[5] = {-1, -1, -1, -1, -1};
+
+    // Find next bullet
+    for (int i = 0; i < MAX_BULLETS; i++)
+    {
+        if (bullet[i].shot == false)
+        {
+            freebullets[next] = i;
+            next++;
+            if (next > 5)
+                break;
+        }
+    }
+
+    switch (player.subweapon)
+    {
+        case 0: // fast shot
+            bullet[freebullets[0]].shot = true;
+            bullet[freebullets[0]].vel_x = 14;
+            bullet[freebullets[0]].vel_y = 0;
+            break;
+        case 1: // trigun
+            bullet[freebullets[0]].shot = true;
+            bullet[freebullets[0]].vel_x = 6;
+            bullet[freebullets[0]].vel_y = 0;
+            bullet[freebullets[1]].shot = true;
+            bullet[freebullets[1]].vel_x = 5;
+            bullet[freebullets[1]].vel_y = 2;
+            bullet[freebullets[2]].shot = true;
+            bullet[freebullets[2]].vel_x = 5;
+            bullet[freebullets[2]].vel_y = -2;
+            break;
+        default:
+            break;
+    }
 }
 
 void reset_bullets()

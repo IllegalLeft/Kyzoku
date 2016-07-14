@@ -50,7 +50,7 @@ int gameloop()
     player.h = PLAYER_HEIGHT;
 	player.hp = 100; // For now, may need tweaking as we go
 	player.score = 0;
-    player.subweapon = 0; // Subweapon will be added later
+    player.subweapon = 1; 
 
     // set background data
     background.x = 0;
@@ -256,6 +256,7 @@ int main(int argc, char* argv[])
     spritesheet = load_img(SPRITESHEET);
 
     // sounds
+    Mix_Volume(-1, 128/2);
     snd_hit = Mix_LoadWAV(SND_HIT);
     snd_shoot = Mix_LoadWAV(SND_SHOOT);
 

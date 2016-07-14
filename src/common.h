@@ -11,10 +11,10 @@
 #include "screen.h"
 
 
-#define MAX_BULLETS     20
+#define MAX_BULLETS     30
 #define MAX_ENEMIES     20
 #define ENEMY_SPAWNTIME 3000 //ms
-#define SHOT_WAIT       240 //ms
+#define SHOT_WAIT       260 //ms
 
 // Hit-box Dimensions
 // Player

@@ -14,6 +14,7 @@ bool check_collisions();
 // Bullet Physics
 int init_bullets();
 void player_shoot();
+void player_shootsub();
 void reset_bullets();
 void move_bullets();
 
