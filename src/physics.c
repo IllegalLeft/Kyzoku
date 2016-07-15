@@ -94,11 +94,11 @@ bool check_collisions()
 	// Grab the player's positon once rather than everytime through loop (saves cycles)
 	for (j = 0; j < MAX_ENEMIES; j++)
 	{
-		if(enemy[j].active == true)
+		if (enemy[j].active == true)
         {
             collision = get_collision(player.x, player.y, player.w, player.h, enemy[j].x, enemy[j].y, enemy[j].w, enemy[j].h);
 
-            if(collision == true)
+            if (collision == true)
 			{
                 Mix_PlayChannel(-1, snd_hit, 0);
 				player.hp -= 10;
@@ -132,7 +132,35 @@ bool check_collisions()
                         player.score += enemy[j].value;
                         bullet[i].shot = false;
                         enemy[j].active = false;
+                        if (rand() % 10)
+                            item_spawn(rand()%2, enemy[j].x+(enemy[j].w/2)-(ITEM_WIDTH/2), enemy[j].y+(enemy[j].h/2)-(ITEM_WIDTH/2));
                     }
+                }
+            }
+        }
+    }
+
+    // Player & items
+    for (j = 0; j < MAX_ITEMS; j++)
+    {
+        if (item[j].active == true)
+        {
+            collision = get_collision(player.x, player.y, player.w, player.h, item[j].x, item[j].y, ITEM_WIDTH-1, ITEM_HEIGHT-1);
+
+            if (collision == true)
+            {
+                item[j].active = false;
+                switch (item[j].type)
+                {
+                    case 0: // health
+                        player.hp += 10;
+                        if (player.hp > 100) player.hp = 100;
+                        break;
+                    case 1: // tri gun
+                        player.ammo += 10;                        
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -387,4 +415,40 @@ void enemy_move()
         if (enemy[i].x <= (-enemy[i].w))
             enemy[i].active = false;
     }
+}
+
+
+// ITEMS
+int init_items()
+{
+    int i;
+    for (i = 0; i < MAX_ITEMS; i++)
+    {
+        item[i].x = 0;
+        item[i].y = 0;
+        item[i].active = false;
+        item[i].type = 0;
+    }
+
+    return 0;
+}
+
+int item_spawn(short type, int x, int y)
+{
+    int i;
+    for (i = 0; i < MAX_ITEMS; i++)
+    {
+        if (item[i].active == false)
+        {
+            // spawn item 
+            item[i].y = y;
+            item[i].x = x;
+            item[i].active = true;
+            item[i].type = type;
+
+            return 1; // Spawn one at a time
+        }
+    }
+
+    return 0;
 }

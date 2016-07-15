@@ -7,12 +7,16 @@
 #define TITLE_REFRESH       1000 //ms
 
 // Images
+#define BACKGROUND_IMAGE    "gfx/background.png"
+#define PLAYERBULLET_IMAGE  "gfx/bullet.png"
+
 #define SPRITESHEET         "gfx/sprites.png"
 #define SPRITE_WIDTH        32
 #define SPRITE_HEIGHT       SPRITE_WIDTH
 
-#define BACKGROUND_IMAGE    "gfx/background.png"
-#define PLAYERBULLET_IMAGE  "gfx/bullet.png"
+#define ITEMSHEET           "gfx/items.png"
+#define ITEM_WIDTH          15
+#define ITEM_HEIGHT         SPRITE_WIDTH
 
 // Dimensions
 // Bullet
@@ -29,11 +33,13 @@
 
 
 SDL_Surface* spritesheet;
+SDL_Surface* itemsheet;
 
 
 // General Drawing
 void apply_surface(int x, int y, SDL_Surface* source, SDL_Surface* destination);
 void draw_sprite(int x, int y, int tile, SDL_Surface* destination);
+void draw_item(int x, int y, int tile, SDL_Surface* destination);
 SDL_Surface* load_img(char* filename);
 SDL_Surface* init_screen();
 
@@ -48,3 +54,6 @@ void draw_enemies(SDL_Surface* screen);
 
 // Text Drawing
 void text(char* message, int xcoord, int ycoord, SDL_Surface* screen);
+
+// Items
+void draw_items(SDL_Surface* screen);

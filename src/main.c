@@ -37,7 +37,7 @@ int gameloop()
     // Text data
     char top_str[30];
     char bottom_str[30];
-    char title_str[] = "Kyzoku - \0\0\0\0\0";
+    char title_str[15];
 
     int i, j;
 
@@ -51,7 +51,7 @@ int gameloop()
 	player.hp = 100; // For now, may need tweaking as we go
 	player.score = 0;
     player.subweapon = 1; 
-    player.ammo = 100;
+    player.ammo = 10;
 
     // set background data
     background.x = 0;
@@ -64,6 +64,7 @@ int gameloop()
         return 1;
     }
     init_enemies();
+    init_items();
 
     // the images
     player.tile = 1;
@@ -149,9 +150,10 @@ int gameloop()
         apply_surface(background.x, background.y, sector, screen);
         apply_surface(background.x + SCREEN_WIDTH, background.y, sector, screen);
 
-        draw_sprite(player.x, player.y, player.tile, screen);
-        draw_enemies(screen);
+        draw_items(screen);
         draw_bullets(screen);
+        draw_enemies(screen);
+        draw_sprite(player.x, player.y, player.tile, screen);
 
         // top and bottom bar
         draw_sprite(0, 0, 20, screen);
@@ -255,6 +257,7 @@ int main(int argc, char* argv[])
     // images
     SDL_Surface* title = load_img("gfx/title.png");
     spritesheet = load_img(SPRITESHEET);
+    itemsheet = load_img(ITEMSHEET);
 
     // sounds
     Mix_Volume(-1, 128/2);
@@ -299,6 +302,7 @@ int main(int argc, char* argv[])
 
     SDL_FreeSurface(title);
     SDL_FreeSurface(spritesheet);
+    SDL_FreeSurface(itemsheet);
 
     // Quit SDL
 	TTF_Quit();

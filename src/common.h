@@ -13,6 +13,8 @@
 
 #define MAX_BULLETS     30
 #define MAX_ENEMIES     20
+#define MAX_ITEMS       20
+
 #define ENEMY_SPAWNTIME 3000 //ms
 #define SHOT_WAIT       260 //ms
 
@@ -73,3 +75,12 @@ struct projectile
     int speed;
     bool shot;
 } bullet[MAX_BULLETS];
+
+// item drop
+struct item_drop
+{
+    int x;
+    int y;
+    bool active;
+    short type;
+} item[MAX_ITEMS];

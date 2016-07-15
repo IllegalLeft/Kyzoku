@@ -40,6 +40,21 @@ void draw_sprite(int x, int y, int tile, SDL_Surface* destination)
     SDL_BlitSurface(spritesheet, &sprite, destination, &offset);
 }
 
+void draw_item(int x, int y, int tile, SDL_Surface* destination)
+{
+    SDL_Rect offset;
+    offset.x = x;
+    offset.y = y;
+
+    SDL_Rect item;
+    item.w = ITEM_WIDTH;
+    item.h = ITEM_HEIGHT;
+    item.x = tile % 10 * ITEM_WIDTH;
+    item.y = tile / 10 * ITEM_HEIGHT;
+
+    SDL_BlitSurface(itemsheet, &item, destination, &offset);
+}
+
 SDL_Surface* load_img(char* filename)
 {
     //SDL_Surface* img = SDL_LoadBMP(filename);
@@ -114,4 +129,15 @@ void text(char* message, int xcoord, int ycoord, SDL_Surface* screen)
 
 	SDL_FreeSurface(text);
 	TTF_CloseFont(font);
+}
+
+// Items
+void draw_items(SDL_Surface* screen)
+{
+    int i;
+    for (i = 0; i < MAX_ITEMS; i++)
+    {
+        if (item[i].active == true)
+            draw_item(item[i].x, item[i].y, item[i].type, screen);
+    }
 }
