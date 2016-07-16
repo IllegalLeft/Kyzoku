@@ -366,12 +366,9 @@ void enemy_spawn(int type, int x, int y)
             // spawn enemy at random place on the right
             enemy[i].y = y;
             enemy[i].x = x;
-            enemy[i].w = ENEMY_WIDTH;
-            enemy[i].h = ENEMY_HEIGHT;
             enemy[i].active = true;
             enemy[i].vel_x = -3;
             enemy[i].vel_y = 0;
-            enemy[i].value = 10;
             enemy[i].type = type;
 
             // type dependant values
@@ -379,10 +376,16 @@ void enemy_spawn(int type, int x, int y)
             {
                 case 0: // regular dude
                     enemy[i].tile = REGDUDE_TILE;
+                    enemy[i].value = 5;
+                    enemy[i].w = 21;
+                    enemy[i].h = 31;
                     break;
                 case 1: // fast dude
                     enemy[i].vel_x = -6;
                     enemy[i].tile = FASTGUY_TILE;
+                    enemy[i].value = 10;
+                    enemy[i].w = 32;
+                    enemy[i].h = 21;
                     break;
                 default:
                     break;

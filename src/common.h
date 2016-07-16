@@ -23,8 +23,10 @@
 #define PLAYER_WIDTH    33
 #define PLAYER_HEIGHT   29
 // Enemy
-#define ENEMY_WIDTH     21
-#define ENEMY_HEIGHT    31
+#define ENEMY1_WIDTH     21
+#define ENEMY1_HEIGHT    31
+#define ENEMY2_WIDTH     21
+#define ENEMY2_HEIGHT    31
 // Bullet
 #define BULLET_WIDTH    12
 #define BULLET_HEIGHT   3

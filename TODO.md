@@ -12,9 +12,6 @@ Gameplay
  * asteroids
  * quick little guys
  * big heavy dudes
-* pickups
-  * health
-  * subweapons
 * subweapons from pickups
 
 Looks
