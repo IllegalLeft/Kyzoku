@@ -18,6 +18,9 @@ Looks
 =====
 * 2x backgrounds (closer stars move faster)
 * explosions
+* sprite animations
+ * ship turning, etc.
+* movement less robotic
 
 Other
 =====
