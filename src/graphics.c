@@ -38,6 +38,12 @@ void draw_sprite(int x, int y, int tile, SDL_Surface* destination)
     sprite.y = tile / 10 * SPRITE_HEIGHT;
 
     SDL_BlitSurface(spritesheet, &sprite, destination, &offset);
+
+#ifdef DEBUG_SPRITEBOXES
+    offset.w = SPRITE_WIDTH;
+    offset.h = SPRITE_HEIGHT;
+    SDL_FillRect(destination, &offset, SDL_MapRGB(destination->format, 0x00, 0xFF, 0xFF));
+#endif
 }
 
 void draw_item(int x, int y, int tile, SDL_Surface* destination)
@@ -53,6 +59,13 @@ void draw_item(int x, int y, int tile, SDL_Surface* destination)
     item.y = tile / 10 * ITEM_HEIGHT;
 
     SDL_BlitSurface(itemsheet, &item, destination, &offset);
+
+#ifdef DEBUG_HITBOXES
+    offset.w = ITEM_WIDTH;
+    offset.h = ITEM_HEIGHT;
+    SDL_FillRect(destination, &offset, SDL_MapRGB(destination->format, 0xFF, 0x00, 0xFF));
+#endif
+
 }
 
 SDL_Surface* load_img(char* filename)
@@ -93,11 +106,24 @@ void draw_menubg(SDL_Surface* screen, int array[20][20])
 // Bullet Drawing
 void draw_bullets(SDL_Surface* screen)
 {
+#ifdef DEBUG_HITBOXES
+    SDL_Rect hitbox;
+#endif
     int i;
     for (i = 0; i < MAX_BULLETS;i++)
     {
         if (bullet[i].shot == true)
+        {
             apply_surface(bullet[i].x, bullet[i].y, bullet[i].image, screen);
+
+#ifdef DEBUG_HITBOXES
+            hitbox.x = bullet[i].x;
+            hitbox.y = bullet[i].y;
+            hitbox.w = BULLET_WIDTH;
+            hitbox.h = BULLET_HEIGHT;
+            SDL_FillRect(screen, &hitbox, SDL_MapRGB(screen->format, 0xFF, 0xFF, 0x00));
+#endif
+        }
     }
 }
 
@@ -111,9 +137,35 @@ void free_bullets()
 // Enemy Drawing
 void draw_enemies(SDL_Surface* screen)
 {
+#ifdef DEBUG_HITBOXES
+    SDL_Rect hitbox;
+#endif
     int i;
     for (i = 0; i < MAX_ENEMIES; i++)
+    {
         draw_sprite(enemy[i].x, enemy[i].y, enemy[i].tile, screen);
+#ifdef DEBUG_HITBOXES
+        switch (enemy[i].type)
+        {
+            case 0:
+                hitbox.x = enemy[i].x + ENEMY1_HITX;
+                hitbox.y = enemy[i].y + ENEMY1_HITY;
+                hitbox.w = ENEMY1_WIDTH;
+                hitbox.h = ENEMY1_HEIGHT;
+                break;
+            case 1:
+                hitbox.x = enemy[i].x + ENEMY2_HITX;
+                hitbox.y = enemy[i].y + ENEMY2_HITY;
+                hitbox.w = ENEMY2_WIDTH;
+                hitbox.h = ENEMY2_HEIGHT;
+                break;
+            default:
+                break;
+        }
+        
+        SDL_FillRect(screen, &hitbox, SDL_MapRGB(screen->format,0xFF,0x00,0x00));
+#endif
+    }
 }
 
 

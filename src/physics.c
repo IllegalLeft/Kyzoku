@@ -13,19 +13,19 @@
 #include "sound.h"
 
 
-void limit_vel(int x, int y)
+void limit_vel(int* vel_x, int* vel_y, int limit)
 {
     // limit x velocity
-    if (player.vel_x > VELOCITY_LIMIT)
-        player.vel_x = VELOCITY_LIMIT;
-    if (player.vel_x < -VELOCITY_LIMIT)
-        player.vel_x = -VELOCITY_LIMIT;
+    if (*vel_x > limit)
+        *vel_x = limit;
+    if (*vel_x < -limit)
+        *vel_x = -limit;
 
     // limit y velocity
-    if (player.vel_y > VELOCITY_LIMIT)
-        player.vel_y = VELOCITY_LIMIT;
-    if (player.vel_y < -VELOCITY_LIMIT)
-        player.vel_y = -VELOCITY_LIMIT;
+    if (*vel_y > limit)
+        *vel_y = limit;
+    if (*vel_y < -limit)
+        *vel_y = -limit;
 
     // prevent player from leaving the screen
     if((player.x + player.vel_x) > (SCREEN_WIDTH - PLAYER_WIDTH))
@@ -39,11 +39,10 @@ void limit_vel(int x, int y)
         player.vel_y = 0;
 }
 
-void apply_velocity(struct player_ship* player)
+void apply_vel(int *x, int *y, int vel_x, int vel_y)
 {
-    // apply velocity
-    player->x += player->vel_x;
-    player->y += player->vel_y;
+    *x += vel_x;
+    *y += vel_y;
 }
 
 bool get_collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h2)
@@ -72,18 +71,30 @@ bool get_collision(int x1, int y1, int w1, int h1, int x2, int y2, int w2, int h
 
     // Check collisions (in reference to object 1)
     // top or bottom inside?
-    if (((top2 >= top1) && (top2 <= bottom1)) || ((bottom2 >= top1) && (bottom2 <= bottom1)))
-        // right or left side inside?
-        if (((right2 >= left1) && (right2 <= right1)) || ((left2 >= left1) && (left2 <= right1)))
-            return true;
+    //if (((top2 >= top1) && (top2 <= bottom1)) || ((bottom2 >= top1) && (bottom2 <= bottom1)))
+    //    // right or left side inside?
+    //    if (((right2 >= left1) && (right2 <= right1)) || ((left2 >= left1) && (left2 <= right1)))
+    //        return true;
 
-    // if all else fails...
-    return false;
+    if (bottom1 <= top2)
+        return false;
+    if (top1 >= bottom2)
+        return false;
+    if (right1 <= left2)
+        return false;
+    if (left1 >= right2)
+        return false;
+
+    return true;
 }
 
 bool check_collisions()
 {
     bool collision;
+    int enemyhb[2][2] = {   // easy to reference array
+        {ENEMY1_HITX, ENEMY1_HITY},
+        {ENEMY2_HITX, ENEMY2_HITY},
+    };
     //int A_top, A_bottom, A_right, A_left;
     //int B_top, B_bottom, B_right, B_left;
     int i, j;
@@ -96,7 +107,7 @@ bool check_collisions()
 	{
 		if (enemy[j].active == true)
         {
-            collision = get_collision(player.x, player.y, player.w, player.h, enemy[j].x, enemy[j].y, enemy[j].w, enemy[j].h);
+            collision = get_collision(player.x + PLAYER_HITX, player.y + PLAYER_HITY, player.w, player.h, enemy[j].x + enemyhb[enemy[j].type][0], enemy[j].y + enemyhb[enemy[j].type][1], enemy[j].w, enemy[j].h);
 
             if (collision == true)
 			{
@@ -123,7 +134,7 @@ bool check_collisions()
                 // Enemy top
                 if (bullet[i].shot == true)
                 {
-                    collision = get_collision(enemy[j].x, enemy[j].y, enemy[j].w, enemy[j].h, bullet[i].x, bullet[i].y, bullet[i].w, bullet[i].h);
+                    collision = get_collision(enemy[j].x + enemyhb[enemy[j].type][0], enemy[j].y + enemyhb[enemy[j].type][1], enemy[j].w, enemy[j].h, bullet[i].x, bullet[i].y, bullet[i].w, bullet[i].h);
 
                     if (collision == true)
                     {
@@ -145,7 +156,7 @@ bool check_collisions()
     {
         if (item[j].active == true)
         {
-            collision = get_collision(player.x, player.y, player.w, player.h, item[j].x, item[j].y, ITEM_WIDTH-1, ITEM_HEIGHT-1);
+            collision = get_collision(player.x + PLAYER_HITX, player.y + PLAYER_HITY, player.w, player.h, item[j].x, item[j].y, ITEM_WIDTH, ITEM_HEIGHT);
 
             if (collision == true)
             {
@@ -177,11 +188,11 @@ int init_bullets()
         // set bullet data
         bullet[i].x = 0;
         bullet[i].y = 0;
-        bullet[i].w = BULLET_HEIGHT;
-        bullet[i].h = BULLET_WIDTH;
-        bullet[i].speed = 4;
-        bullet[i].vel_x = bullet[i].speed;
-        bullet[i].vel_y = 0;
+        bullet[i].w = BULLET_WIDTH;
+        bullet[i].h = BULLET_HEIGHT;
+        bullet[i].speed = BULLET_NORM_VELX; // not sure why we need speed...
+        bullet[i].vel_x = BULLET_NORM_VELX;
+        bullet[i].vel_y = BULLET_NORM_VELY;
         bullet[i].shot = false;
         // Image
         bullet[i].image = load_img("gfx/bullet.png");
@@ -240,8 +251,8 @@ void player_shootsub()
     {
         case 0: // fast shot
             bullet[freebullets[0]].shot = true;
-            bullet[freebullets[0]].vel_x = 14;
-            bullet[freebullets[0]].vel_y = 0;
+            bullet[freebullets[0]].vel_x = BULLET_FAST_VELX;
+            bullet[freebullets[0]].vel_y = BULLET_FAST_VELY;
             break;
         case 1: // trigun
             bullet[freebullets[0]].shot = true;
@@ -280,12 +291,11 @@ void move_bullets()
             // is it JUST shot?
             if ((bullet[i].x == 0) && (bullet[i].y == 0))
             {
-                bullet[i].x = player.x + player.w - BULLET_WIDTH;
-                bullet[i].y = player.y + (player.h - BULLET_HEIGHT)/2;
+                bullet[i].x = player.x + SPRITE_WIDTH - BULLET_WIDTH;
+                bullet[i].y = player.y + (SPRITE_HEIGHT/2) - BULLET_HEIGHT/2;
             }
 
-            bullet[i].x += bullet[i].vel_x;
-            bullet[i].y += bullet[i].vel_y;
+            apply_vel(&bullet[i].x, &bullet[i].y, bullet[i].vel_x, bullet[i].vel_y);
         }
         else
         {
@@ -377,15 +387,15 @@ void enemy_spawn(int type, int x, int y)
                 case 0: // regular dude
                     enemy[i].tile = REGDUDE_TILE;
                     enemy[i].value = 5;
-                    enemy[i].w = 21;
-                    enemy[i].h = 31;
+                    enemy[i].w = ENEMY1_WIDTH;
+                    enemy[i].h = ENEMY1_HEIGHT;
                     break;
                 case 1: // fast dude
                     enemy[i].vel_x = -6;
                     enemy[i].tile = FASTGUY_TILE;
                     enemy[i].value = 10;
-                    enemy[i].w = 32;
-                    enemy[i].h = 21;
+                    enemy[i].w = ENEMY2_WIDTH;
+                    enemy[i].h = ENEMY2_HEIGHT;
                     break;
                 default:
                     break;
@@ -394,6 +404,7 @@ void enemy_spawn(int type, int x, int y)
             return; // Spawn one at a time
         }
     }
+    return; // failsafe
 }
 
 void enemy_move()
@@ -405,8 +416,7 @@ void enemy_move()
         if (enemy[i].active == true)
         {
             // move enemies forward (to left)
-            enemy[i].x += enemy[i].vel_x;
-            enemy[i].y += enemy[i].vel_y;
+            apply_vel(&enemy[i].x, &enemy[i].y, enemy[i].vel_x, enemy[i].vel_y);
         }
         else
         {

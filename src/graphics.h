@@ -16,7 +16,7 @@
 
 #define ITEMSHEET           "gfx/items.png"
 #define ITEM_WIDTH          15
-#define ITEM_HEIGHT         SPRITE_WIDTH
+#define ITEM_HEIGHT         ITEM_WIDTH
 
 // Dimensions
 // Bullet

@@ -53,6 +53,14 @@ int gameloop()
     player.subweapon = 1; 
     player.ammo = 10;
 
+#ifdef DEBUG_HITBOXES
+    SDL_Rect player_hb;
+    player_hb.x = player.x + PLAYER_HITX;
+    player_hb.y = player.y + PLAYER_HITY;
+    player_hb.w = PLAYER_WIDTH;
+    player_hb.h = PLAYER_HEIGHT;
+#endif
+
     // set background data
     background.x = 0;
     background.y = 0;
@@ -101,27 +109,16 @@ int gameloop()
         /// Events
         stopgame = game_events();
 
-        apply_velocity(&player);
+        apply_vel(&player.x, &player.y, player.vel_x, player.vel_y);
+#ifdef DEBUG_HITBOXES
+        apply_vel((int*)&player_hb.x, (int*)&player_hb.y, player.vel_x, player.vel_y);
+#endif
 
         // apply background scrolling
         background.x -= 1;
         if(background.x < -SCREEN_WIDTH)
             background.x = 0;
 
-        // slow player velocity
-        if (player.vel_x > 0)
-            player.vel_x /= 2;
-        else player.vel_x = 0;
-        if (player.vel_x < 0)
-            player.vel_x /= 2;
-        else player.vel_x = 0;
-
-        if (player.vel_y > 0)
-            player.vel_y /= 2;
-        else player.vel_y = 0;
-        if (player.vel_y < 0)
-            player.vel_y /= 2;
-        else player.vel_y = 0;
 
         if (stopgame != true)
             stopgame = check_collisions();
@@ -154,6 +151,9 @@ int gameloop()
         draw_bullets(screen);
         draw_enemies(screen);
         draw_sprite(player.x, player.y, player.tile, screen);
+#ifdef DEBUG_HITBOXES
+        SDL_FillRect(screen, &player_hb, SDL_MapRGB(screen->format,0x00,0xFF,0x00));
+#endif
 
         // top and bottom bar
         draw_sprite(0, 0, 20, screen);

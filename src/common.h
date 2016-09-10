@@ -10,6 +10,13 @@
 #include "graphics.h"
 #include "screen.h"
 
+//debug stuff
+#define DEBUG
+#ifdef DEBUG
+#define DEBUG_HITBOXES
+//#define DEBUG_SPRITEBOXES
+#endif
+
 
 #define MAX_BULLETS     30
 #define MAX_ENEMIES     20
@@ -20,13 +27,19 @@
 
 // Hit-box Dimensions
 // Player
-#define PLAYER_WIDTH    33
-#define PLAYER_HEIGHT   29
+#define PLAYER_HITX     0
+#define PLAYER_HITY     10
+#define PLAYER_WIDTH    28
+#define PLAYER_HEIGHT   13
 // Enemy
-#define ENEMY1_WIDTH     21
-#define ENEMY1_HEIGHT    31
-#define ENEMY2_WIDTH     21
-#define ENEMY2_HEIGHT    31
+#define ENEMY1_HITX     9
+#define ENEMY1_HITY     3
+#define ENEMY1_WIDTH    16
+#define ENEMY1_HEIGHT   27
+#define ENEMY2_HITX     5
+#define ENEMY2_HITY     9
+#define ENEMY2_WIDTH    26
+#define ENEMY2_HEIGHT   13
 // Bullet
 #define BULLET_WIDTH    12
 #define BULLET_HEIGHT   3

@@ -37,35 +37,37 @@ bool game_events()
     Uint8 *keystates = SDL_GetKeyState(NULL);
 
     // Movement
-    if (keystates[SDLK_LSHIFT])
-    {
-        if (keystates[SDLK_UP] || keystates[SDLK_w])
-            player.vel_y -= PLAYER_ACCEL / 2;
-        if (keystates[SDLK_DOWN] || keystates[SDLK_s])
-            player.vel_y += PLAYER_ACCEL / 2;
-        if (keystates[SDLK_LEFT] || keystates[SDLK_a])
-            player.vel_x -= PLAYER_ACCEL / 2;
-        if (keystates[SDLK_RIGHT] || keystates[SDLK_d])
-            player.vel_x += PLAYER_ACCEL / 2;
-    }
+    if (keystates[SDLK_UP] || keystates[SDLK_w])
+        player.vel_y -= PLAYER_ACCEL;
     else
-    {
-        if (keystates[SDLK_UP] || keystates[SDLK_w])
-            player.vel_y -= PLAYER_ACCEL;
-        if (keystates[SDLK_DOWN] || keystates[SDLK_s])
-            player.vel_y += PLAYER_ACCEL;
-        if (keystates[SDLK_LEFT] || keystates[SDLK_a])
-            player.vel_x -= PLAYER_ACCEL;
-        if (keystates[SDLK_RIGHT] || keystates[SDLK_d])
-            player.vel_x += PLAYER_ACCEL;
-    }
+        if (player.vel_y < 0) player.vel_y += 1;
+
+    if (keystates[SDLK_DOWN] || keystates[SDLK_s])
+        player.vel_y += PLAYER_ACCEL;
+    else
+        if (player.vel_y > 0) player.vel_y -= 1;
+
+    if (keystates[SDLK_LEFT] || keystates[SDLK_a])
+        player.vel_x -= PLAYER_ACCEL;
+    else
+        if (player.vel_x < 0) player.vel_x += 1;
+
+    if (keystates[SDLK_RIGHT] || keystates[SDLK_d])
+        player.vel_x += PLAYER_ACCEL;
+    else
+        if (player.vel_x > 0) player.vel_x -= 1;
+
     // Booster frame?
     if (keystates[SDLK_RIGHT] || keystates[SDLK_d])
         player.tile = 2;
     else
         player.tile = 1;
 
-    limit_vel(player.vel_x, player.vel_y);
+    // Limit velocity
+    if (keystates[SDLK_LSHIFT])
+        limit_vel(&player.vel_x, &player.vel_y, VEL_LIMIT_SLOW);
+    else
+        limit_vel(&player.vel_x, &player.vel_y, VEL_LIMIT_FAST);
 
     // Shooting
     if ( ( (keystates[SDLK_j]) || keystates[SDLK_c]) && (SDL_GetTicks() > SHOT_WAIT + player.last_shot) )
