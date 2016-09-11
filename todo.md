@@ -20,7 +20,7 @@ Looks
 * explosions
 * sprite animations
  * ship turning, etc.
-* movement less robotic
+ * bullet animation
 
 Other
 =====
