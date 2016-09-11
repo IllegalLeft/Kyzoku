@@ -16,7 +16,7 @@ Gameplay
 
 Looks
 =====
-* 2x backgrounds (closer stars move faster)
+* multiple background layers (closer stars move faster)
 * explosions
 * sprite animations
  * ship turning, etc.
