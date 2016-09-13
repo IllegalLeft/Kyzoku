@@ -12,7 +12,6 @@ Gameplay
  * asteroids
  * quick little guys
  * big heavy dudes
-* subweapons from pickups
 
 Looks
 =====
@@ -21,6 +20,10 @@ Looks
 * sprite animations
  * ship turning, etc.
  * bullet animation
+
+Sounds
+======
+* sound pans based on where it came from
 
 Other
 =====

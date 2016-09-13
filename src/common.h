@@ -11,7 +11,7 @@
 #include "screen.h"
 
 //debug stuff
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #define DEBUG_HITBOXES
 //#define DEBUG_SPRITEBOXES

@@ -7,7 +7,7 @@
 #define PLAYER_ACCEL        2
 
 // bullet velocities
-#define BULLET_NORM_VELX        8
+#define BULLET_NORM_VELX        6
 #define BULLET_NORM_VELY        0
 #define BULLET_FAST_VELX        14
 #define BULLET_FAST_VELY        0

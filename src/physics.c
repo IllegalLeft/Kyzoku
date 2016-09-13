@@ -141,10 +141,11 @@ bool check_collisions()
                         // B O O M ! (collision happens)
                         Mix_PlayChannel(-1, snd_hit, 0);
                         player.score += enemy[j].value;
-                        bullet[i].shot = false;
                         enemy[j].active = false;
-                        if (rand() % 10)
-                            item_spawn(rand()%2, enemy[j].x+(enemy[j].w/2)-(ITEM_WIDTH/2), enemy[j].y+(enemy[j].h/2)-(ITEM_WIDTH/2));
+                        if ((rand() % 10 + 1) < 2)
+                            item_spawn(rand()%3, enemy[j].x+(enemy[j].w/2)-(ITEM_WIDTH/2), enemy[j].y+(enemy[j].h/2)-(ITEM_WIDTH/2));
+                        if (bullet[i].vel_x != BULLET_FAST_VELX)
+                            bullet[i].shot = false;
                     }
                 }
             }
@@ -168,7 +169,20 @@ bool check_collisions()
                         if (player.hp > 100) player.hp = 100;
                         break;
                     case 1: // tri gun
-                        player.ammo += 10;                        
+                        if (player.subweapon != 1)
+                        {
+                            player.subweapon = 1;
+                            player.ammo = 0;
+                        }
+                        player.ammo += 10;
+                        break;
+                    case 2: // supershot
+                        if (player.subweapon != 2)
+                        {
+                            player.subweapon = 0;
+                            player.ammo = 0;
+                        }
+                        player.ammo += 10;
                         break;
                     default:
                         break;
@@ -225,8 +239,8 @@ void player_shoot()
     {
         // FIRE
         bullet[next].shot = true;
-        bullet[next].vel_x = 3;
-        bullet[next].vel_y = 0;
+        bullet[next].vel_x = BULLET_NORM_VELX;
+        bullet[next].vel_y = BULLET_NORM_VELY;
     }
 }
 
